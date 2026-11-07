@@ -1,0 +1,2254 @@
+<!-- 由 scripts/build.js 自動產生，請勿手動編輯 -->
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' file: 'unsafe-inline'; connect-src 'none'; font-src 'none'; img-src 'self' data:; frame-src 'none'; object-src 'none'; form-action 'none'; base-uri 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="GrokBot_AI Service：私有、尚未發佈的家計帳本示範，僅含合成範例資料，不連結任何帳戶或服務。">
+  <title>GrokBot_AI Service</title>
+  <style>
+/* 家計帳本示範 — 無外部字型，僅使用系統字型 */
+:root {
+  --teal-50: #e9f8f6;
+  --teal-100: #cbefea;
+  --teal-400: #2bb3a3;
+  --teal-600: #0f8a7e;
+  --teal-800: #0b5a53;
+  --coral-50: #fff0ec;
+  --coral-100: #ffd9cf;
+  --coral-400: #ff7a5c;
+  --coral-600: #d9502f;
+  --amber-50: #fff7e6;
+  --amber-100: #ffe8b8;
+  --amber-400: #f5b021;
+  --amber-700: #a76a00;
+  --violet-400: #7c6cf0;
+  --sky-400: #3a9be8;
+  --ink-900: #14232b;
+  --ink-700: #34474f;
+  --ink-500: #5d6f77;
+  --ink-300: #a7b5bb;
+  --line: #e3eaec;
+  --bg: #f4f8f8;
+  --card: #ffffff;
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 1px 2px rgba(20, 35, 43, .05), 0 8px 24px rgba(20, 35, 43, .06);
+  --focus: 0 0 0 3px #fff, 0 0 0 6px #1a73e8;
+  --font: "Noto Sans TC", "PingFang TC", "Heiti TC", "Microsoft JhengHei", "微軟正黑體", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --num: ui-rounded, "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-900);
+  background:
+    radial-gradient(1200px 500px at 100% -10%, rgba(43, 179, 163, .12), transparent 60%),
+    radial-gradient(900px 400px at -10% 110%, rgba(255, 122, 92, .08), transparent 60%),
+    var(--bg);
+  min-height: 100vh;
+}
+[hidden] { display: none !important; }
+h1, h2, h3 { line-height: 1.25; margin: 0; }
+.num, .tabular { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+.muted { color: var(--ink-500); }
+.small { font-size: .875rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+:focus-visible { outline: none; box-shadow: var(--focus); border-radius: 10px; }
+
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 100;
+  background: var(--ink-900); color: #fff; padding: 12px 16px; border-radius: 10px; text-decoration: none;
+}
+.skip-link:focus { top: 12px; }
+
+/* ---------- 示範橫幅 ---------- */
+.demo-banner {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, var(--amber-100), #ffeccc 60%, var(--coral-100));
+  color: #5a3a00; border-bottom: 1px solid #f0d08a; font-size: .95rem;
+}
+.demo-banner__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--amber-400); box-shadow: 0 0 0 4px rgba(245, 176, 33, .25); }
+.demo-banner__sub { color: #7a5612; font-size: .875rem; }
+.private-notice {
+  padding: 10px 20px; background: #fffaf0; color: #5a3a00; border-bottom: 1px solid #f0d08a;
+  font-size: .875rem; line-height: 1.6;
+}
+.topbar__brand { margin: 0 0 4px; font-size: .85rem; font-weight: 800; letter-spacing: .03em; color: var(--teal-800); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* ---------- 版面 ---------- */
+.shell { display: grid; grid-template-columns: 248px 1fr; min-height: calc(100vh - 44px); }
+.sidebar {
+  position: sticky; top: var(--banner-h, 44px); align-self: start; height: calc(100vh - var(--banner-h, 44px));
+  display: flex; flex-direction: column; gap: 20px;
+  padding: 24px 16px; background: rgba(255, 255, 255, .78);
+  backdrop-filter: blur(10px); border-right: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 12px; padding: 0 8px; }
+.brand__logo { color: var(--teal-600); display: grid; place-items: center; }
+.brand__name { font-weight: 800; font-size: 1.15rem; letter-spacing: .02em; }
+.brand__tag { font-size: .8rem; color: var(--ink-500); }
+.nav { display: flex; flex-direction: column; gap: 4px; }
+.nav__item {
+  display: flex; align-items: center; gap: 12px; min-height: 48px; width: 100%;
+  padding: 10px 14px; border: 0; border-radius: 14px; background: transparent;
+  font: inherit; font-weight: 600; color: var(--ink-700); cursor: pointer; text-align: left;
+  transition: background .15s, color .15s;
+}
+.nav__item:hover { background: var(--teal-50); color: var(--teal-800); }
+.nav__item[aria-current="page"] { background: var(--teal-600); color: #fff; box-shadow: 0 6px 16px rgba(15, 138, 126, .25); }
+.nav__icon { width: 24px; text-align: center; font-size: 1.1rem; }
+.sidebar__foot { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
+.storage-note { font-size: .8rem; color: var(--ink-500); padding: 0 8px; }
+
+.content { min-width: 0; padding: 24px 28px 48px; }
+.topbar { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 24px; margin-bottom: 22px; }
+.topbar h1 { font-size: 1.75rem; font-weight: 800; }
+.topbar__subtitle { margin: 4px 0 0; color: var(--ink-500); }
+.filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+main:focus { outline: none; }
+
+/* ---------- 表單元件 ---------- */
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.field--grow { flex: 1 1 260px; }
+.field--full { grid-column: 1 / -1; }
+.field__label { font-size: .8rem; font-weight: 600; color: var(--ink-500); padding: 0; }
+.select, .input {
+  min-height: 44px; padding: 8px 12px; border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+  background: #fff; font: inherit; color: var(--ink-900);
+}
+.select { padding-right: 32px; }
+.select:hover, .input:hover { border-color: var(--teal-400); }
+.select:focus-visible, .input:focus-visible { border-color: var(--teal-600); }
+.seg { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.seg legend { margin-bottom: 4px; float: left; width: 100%; }
+.seg__wrap { display: inline-flex; background: #fff; border: 1.5px solid var(--line); border-radius: 14px; padding: 3px; gap: 2px; }
+.seg__opt { position: relative; display: inline-flex; }
+.seg__opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg__opt span {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 38px; min-width: 44px;
+  padding: 6px 12px; border-radius: 10px; font-weight: 600; color: var(--ink-700); cursor: pointer; white-space: nowrap;
+}
+.seg__opt input:checked + span { background: var(--teal-600); color: #fff; }
+.seg__opt input:focus-visible + span { box-shadow: var(--focus); }
+.seg--form .seg__wrap { width: 100%; }
+.seg--form .seg__opt { flex: 1; }
+.seg--form .seg__opt span { width: 100%; min-height: 44px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 44px; min-width: 44px; padding: 8px 18px; border-radius: 12px;
+  border: 1.5px solid transparent; font: inherit; font-weight: 700; cursor: pointer;
+  transition: transform .1s, background .15s, box-shadow .15s;
+}
+.btn:active { transform: translateY(1px); }
+.btn--primary { background: var(--teal-600); color: #fff; box-shadow: 0 4px 12px rgba(15, 138, 126, .25); }
+.btn--primary:hover { background: var(--teal-800); }
+.btn--coral { background: var(--coral-400); color: #fff; }
+.btn--coral:hover { background: var(--coral-600); }
+.btn--ghost { background: #fff; border-color: var(--line); color: var(--ink-700); }
+.btn--ghost:hover { border-color: var(--teal-400); color: var(--teal-800); }
+.btn--small { min-height: 44px; padding: 6px 12px; font-size: .875rem; }
+.btn--block { width: 100%; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.check { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 10px 0; cursor: pointer; }
+.check input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--teal-600); flex: none; }
+
+/* ---------- 卡片 ---------- */
+.card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; border: 1px solid rgba(227, 234, 236, .7); }
+.card + .card { margin-top: 18px; }
+.card__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 14px; }
+.card__title { font-size: 1.1rem; font-weight: 800; }
+.grid { display: grid; gap: 18px; }
+.grid--kpi { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 18px; }
+.grid--2 { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); margin-bottom: 18px; }
+.grid--2b { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin-bottom: 18px; }
+
+.kpi { position: relative; overflow: hidden; padding: 18px 20px 20px; border-radius: var(--radius); box-shadow: var(--shadow); color: var(--ink-900); }
+.kpi::after { content: ""; position: absolute; right: -30px; top: -30px; width: 110px; height: 110px; border-radius: 50%; background: rgba(255, 255, 255, .35); }
+.kpi--teal { background: linear-gradient(140deg, var(--teal-50), var(--teal-100)); }
+.kpi--coral { background: linear-gradient(140deg, var(--coral-50), var(--coral-100)); }
+.kpi--amber { background: linear-gradient(140deg, var(--amber-50), var(--amber-100)); }
+.kpi--ink { background: linear-gradient(140deg, #eef3ff, #dde6ff); }
+.kpi__label { font-weight: 700; font-size: .9rem; color: var(--ink-700); }
+.kpi__value { font-family: var(--num); font-variant-numeric: tabular-nums; font-size: clamp(1.6rem, 2.4vw, 2.2rem); font-weight: 800; letter-spacing: -.01em; margin-top: 6px; line-height: 1.1; word-break: break-all; }
+.kpi__hint { margin-top: 6px; font-size: .82rem; color: var(--ink-500); }
+.kpi--coral .kpi__value { color: var(--coral-600); }
+.kpi--teal .kpi__value { color: var(--teal-800); }
+
+.reconcile {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 12px 16px; margin-bottom: 18px;
+  border-radius: 14px; background: #fff; border: 1.5px dashed var(--teal-400); font-variant-numeric: tabular-nums;
+}
+.reconcile__eq { font-weight: 700; font-size: 1.05rem; }
+.reconcile__ok { color: var(--teal-800); font-weight: 800; }
+.reconcile__bad { color: var(--coral-600); font-weight: 800; }
+
+.view-note { padding: 12px 16px; border-radius: 14px; background: var(--teal-50); color: var(--teal-800); margin-bottom: 18px; font-size: .92rem; }
+.view-note--adj { background: #f1efff; color: #3d3394; }
+
+/* ---------- 圖表 ---------- */
+.donut-wrap { display: grid; grid-template-columns: 220px 1fr; gap: 18px; align-items: center; }
+.donut { width: 220px; height: 220px; }
+.donut path { transition: opacity .15s, transform .15s; transform-origin: 110px 110px; cursor: pointer; }
+.donut path.is-dim { opacity: .25; }
+.donut path.is-active { transform: scale(1.04); }
+.donut__center-label { font-size: 12px; fill: var(--ink-500); font-family: var(--font); }
+.donut__center-value { font-size: 19px; font-weight: 800; fill: var(--ink-900); font-family: var(--num); font-variant-numeric: tabular-nums; }
+.legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.legend button {
+  display: grid; grid-template-columns: 14px 1fr auto auto; gap: 10px; align-items: center; width: 100%;
+  min-height: 44px; padding: 6px 10px; border: 1.5px solid transparent; border-radius: 12px; background: transparent;
+  font: inherit; text-align: left; cursor: pointer; color: var(--ink-900);
+}
+.legend button:hover, .legend button[aria-pressed="true"] { background: var(--teal-50); border-color: var(--teal-100); }
+.legend__sw { width: 14px; height: 14px; border-radius: 4px; }
+.legend__amt { font-weight: 700; font-variant-numeric: tabular-nums; }
+.legend__pct { color: var(--ink-500); font-variant-numeric: tabular-nums; min-width: 4.2em; text-align: right; }
+
+.bars { width: 100%; height: auto; display: block; }
+.bars .bar-g { fill: var(--teal-400); }
+.bars .bar-r { fill: var(--coral-400); }
+.bars .bar-g:hover, .bars .bar-r:hover { opacity: .75; }
+.bars .axis { stroke: var(--ink-300); stroke-width: 1; }
+.bars .tick { font-size: 10px; fill: var(--ink-500); font-family: var(--font); }
+.chart-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: .85rem; color: var(--ink-500); margin-top: 8px; }
+.chart-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+
+.trend { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; align-items: end; height: 220px; padding-top: 8px; }
+.trend__btn {
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; gap: 6px; height: 100%;
+  min-height: 44px; padding: 6px; border: 1.5px solid transparent; border-radius: 14px; background: transparent; font: inherit; cursor: pointer;
+}
+.trend__btn:hover { background: var(--teal-50); }
+.trend__btn[aria-pressed="true"] { border-color: var(--teal-400); background: var(--teal-50); }
+.trend__bar { border-radius: 10px 10px 4px 4px; background: linear-gradient(180deg, var(--teal-400), var(--teal-600)); min-height: 4px; transition: height .3s; }
+.trend__btn[aria-pressed="true"] .trend__bar { background: linear-gradient(180deg, var(--amber-400), #e08a00); }
+.trend__bar--neg { background: linear-gradient(180deg, var(--coral-100), var(--coral-400)); }
+.trend__val { font-size: .78rem; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-700); text-align: center; word-break: break-all; }
+.trend__month { font-size: .8rem; color: var(--ink-500); text-align: center; }
+
+/* ---------- 清單 ---------- */
+.list { list-style: none; margin: 0; padding: 0; }
+.list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.list li:last-child { border-bottom: 0; }
+.list__main { min-width: 0; flex: 1 1 220px; }
+.list__title { font-weight: 700; }
+.list__meta { font-size: .85rem; color: var(--ink-500); }
+.amt { font-family: var(--num); font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.amt--neg { color: var(--coral-600); }
+.amt--missing { color: var(--amber-700); background: var(--amber-50); border-radius: 8px; padding: 2px 8px; font-family: var(--font); }
+
+.pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px; font-size: .78rem; font-weight: 700; white-space: nowrap; }
+.pill--teal { background: var(--teal-50); color: var(--teal-800); }
+.pill--coral { background: var(--coral-50); color: var(--coral-600); }
+.pill--amber { background: var(--amber-50); color: var(--amber-700); }
+.pill--violet { background: #f1efff; color: #4a3fb0; }
+.pill--grey { background: #eef2f3; color: var(--ink-700); }
+.pill--sky { background: #e8f3fd; color: #1d5f99; }
+
+.empty { padding: 28px 16px; text-align: center; color: var(--ink-500); border: 1.5px dashed var(--line); border-radius: 14px; background: #fbfdfd; }
+.empty strong { display: block; color: var(--ink-700); margin-bottom: 4px; }
+
+/* ---------- 表格 ---------- */
+.toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 10px; }
+.table-wrap { overflow-x: auto; }
+table.tx { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .95rem; }
+table.tx th { position: sticky; top: 0; background: #f7fafa; text-align: left; font-size: .8rem; color: var(--ink-500); font-weight: 700; padding: 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.tx th .th-btn { display: flex; align-items: center; gap: 4px; width: 100%; min-height: 44px; padding: 6px 10px; border: 0; background: transparent; font: inherit; color: inherit; cursor: pointer; }
+table.tx th .th-btn:hover { color: var(--teal-800); }
+table.tx th .th-static { display: block; padding: 12px 10px; }
+table.tx td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+table.tx tr:hover td { background: #fbfefd; }
+table.tx td.r, table.tx th.r { text-align: right; }
+table.tx th.r .th-btn { justify-content: flex-end; }
+.tx-merchant { font-weight: 700; }
+.tx-sub { font-size: .8rem; color: var(--ink-500); word-break: break-all; }
+.row-actions { display: flex; gap: 6px; justify-content: flex-end; flex-wrap: wrap; }
+
+/* ---------- 帳單 ---------- */
+.bill-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.bill { border-radius: var(--radius); padding: 18px; background: #fff; box-shadow: var(--shadow); border-top: 6px solid var(--teal-400); display: flex; flex-direction: column; gap: 8px; }
+.bill--overdue { border-top-color: var(--coral-400); }
+.bill--reminder { border-top-color: var(--amber-400); }
+.bill--paid { border-top-color: var(--ink-300); }
+.bill--undated { border-top-color: var(--violet-400); }
+.bill__name { font-weight: 800; }
+.bill__amt { font-size: 1.6rem; }
+.bill__actions { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ---------- 匯入 ---------- */
+textarea.input { width: 100%; min-height: 220px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .85rem; line-height: 1.45; resize: vertical; }
+.import-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.state-row--invalid td { background: #fff7f5; }
+.state-row--duplicate td { background: #fffbf0; }
+
+/* ---------- 說明 ---------- */
+.prose h3 { margin: 18px 0 6px; font-size: 1.05rem; }
+.prose p, .prose li { color: var(--ink-700); }
+.prose code { background: #eef4f4; padding: 1px 6px; border-radius: 6px; font-size: .9em; }
+.formula { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #f4f8f8; padding: 12px 14px; border-radius: 12px; white-space: pre-wrap; font-size: .88rem; }
+.count-table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+.count-table th, .count-table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.count-table td.r { text-align: right; }
+
+/* ---------- 對話框 ---------- */
+.dialog { border: 0; border-radius: 22px; padding: 0; width: min(480px, calc(100vw - 24px)); box-shadow: 0 30px 80px rgba(20, 35, 43, .3); color: var(--ink-900); }
+.dialog--wide { width: min(720px, calc(100vw - 24px)); }
+.dialog::backdrop { background: rgba(20, 35, 43, .45); backdrop-filter: blur(2px); }
+.dialog__body { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+.dialog__title { font-size: 1.25rem; font-weight: 800; }
+.dialog__msg { color: var(--ink-700); }
+.dialog__actions { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.form-grid .seg--form { grid-column: 1 / -1; }
+.form-errors:empty { display: none; }
+.form-errors { background: var(--coral-50); color: var(--coral-600); border-radius: 12px; padding: 10px 14px; font-weight: 600; }
+.form-errors ul { margin: 0; padding-left: 18px; }
+
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); opacity: 0; pointer-events: none;
+  background: var(--ink-900); color: #fff; padding: 12px 20px; border-radius: 14px; font-weight: 600; z-index: 200;
+  transition: opacity .2s, transform .2s; max-width: calc(100vw - 32px);
+}
+.toast.is-on { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- 響應式 ---------- */
+@media (max-width: 1180px) {
+  .grid--kpi { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid--2, .grid--2b { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar {
+    position: sticky; top: auto; bottom: 0; height: auto; order: 2; z-index: 40;
+    flex-direction: row; padding: 6px 8px; gap: 0; border-right: 0; border-top: 1px solid var(--line);
+    background: rgba(255, 255, 255, .96);
+  }
+  .brand, .sidebar__foot { display: none; }
+  .nav { flex-direction: row; width: 100%; justify-content: space-between; }
+  .nav__item { flex-direction: column; gap: 2px; padding: 6px 4px; font-size: .75rem; min-height: 56px; text-align: center; justify-content: center; }
+  .nav__icon { font-size: 1.15rem; }
+  .content { padding: 16px 14px 24px; order: 1; }
+  .mobile-reset { display: block !important; }
+  .donut-wrap { grid-template-columns: 1fr; justify-items: center; }
+  .legend { width: 100%; }
+  .filters { width: 100%; }
+  .filters .field { flex: 1 1 140px; }
+  .form-grid { grid-template-columns: 1fr; }
+
+  table.tx thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  table.tx, table.tx tbody, table.tx tr, table.tx td { display: block; width: 100%; }
+  table.tx tr { border: 1px solid var(--line); border-radius: 14px; margin-bottom: 10px; padding: 6px 4px; background: #fff; }
+  table.tx td { border: 0; padding: 4px 10px; display: flex; justify-content: space-between; gap: 12px; text-align: right; }
+  table.tx td::before { content: attr(data-label); font-size: .78rem; color: var(--ink-500); font-weight: 700; text-align: left; flex: none; }
+  table.tx td.r { text-align: right; }
+  .row-actions { justify-content: flex-end; }
+}
+@media (max-width: 520px) {
+  .grid--kpi { grid-template-columns: 1fr; }
+  .topbar h1 { font-size: 1.4rem; }
+  .demo-banner { padding: 8px 14px; }
+  .trend { height: 180px; gap: 4px; }
+  .trend__val { font-size: .68rem; }
+}
+.mobile-reset { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+@media print {
+  .sidebar, .filters, .toast { display: none; }
+}
+
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <div class="demo-banner" role="status">
+    <span class="demo-banner__dot" aria-hidden="true"></span>
+    <strong>示範資料，尚未連結 Gmail／Google 試算表。</strong>
+    <span class="demo-banner__sub">所有交易、帳單與郵件編號皆為合成資料；資料僅存於此瀏覽器。</span>
+  </div>
+  <div class="private-notice" role="note" aria-label="私有示範聲明">
+    <strong>私有示範／尚未發佈：</strong>這是本機私有示範，尚未發佈為網站。這不是真實或已同步的帳本，只含範例資料；您所做的變更只儲存在目前這個瀏覽器（localStorage），不會上傳。
+    即使是私有示範，也請勿輸入或匯入真實、敏感的財務資料。本頁不使用分析追蹤、不發出任何網路請求，也不收集帳號、密碼或金鑰。
+  </div>
+
+  <div class="shell">
+    <aside class="sidebar" aria-label="主選單">
+      <div class="brand">
+        <div class="brand__logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32"><rect x="2" y="2" width="28" height="28" rx="9" fill="currentColor"/><path d="M9 21l5-6 4 3 5-8" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div class="brand__name">GrokBot_AI Service</div>
+          <div class="brand__tag">家計帳本 · 私有示範 · 離線</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav__item" data-section="overview" aria-current="page"><span class="nav__icon" aria-hidden="true">◎</span>總覽</button>
+        <button class="nav__item" data-section="transactions"><span class="nav__icon" aria-hidden="true">≡</span>交易明細</button>
+        <button class="nav__item" data-section="bills"><span class="nav__icon" aria-hidden="true">◷</span>帳單提醒</button>
+        <button class="nav__item" data-section="import"><span class="nav__icon" aria-hidden="true">⇩</span>匯入預覽</button>
+        <button class="nav__item" data-section="about"><span class="nav__icon" aria-hidden="true">ⓘ</span>說明與限制</button>
+      </nav>
+      <div class="sidebar__foot">
+        <div class="storage-note" id="storage-note">本機儲存：檢查中…</div>
+        <button class="btn btn--ghost btn--block" id="reset-btn" type="button">重設示範資料</button>
+      </div>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <div class="topbar__title">
+          <p class="topbar__brand">GrokBot_AI Service <span class="pill pill--amber">私有示範／尚未發佈</span></p>
+          <h1 id="page-title">總覽</h1>
+          <p class="topbar__subtitle" id="page-subtitle"></p>
+        </div>
+        <form class="filters" id="filters" aria-label="全域篩選">
+          <label class="field">
+            <span class="field__label">月份</span>
+            <select id="f-month" class="select"></select>
+          </label>
+          <fieldset class="seg" id="f-currency">
+            <legend class="field__label">幣別（不換匯）</legend>
+          </fieldset>
+          <label class="field">
+            <span class="field__label">帳本</span>
+            <select id="f-ledger" class="select"></select>
+          </label>
+          <fieldset class="seg" id="f-view">
+            <legend class="field__label">退款歸屬檢視</legend>
+          </fieldset>
+        </form>
+      </header>
+
+      <main id="main" tabindex="-1">
+        <section id="sec-overview" class="section" aria-labelledby="page-title"></section>
+
+        <section id="sec-transactions" class="section" hidden>
+          <div class="card">
+            <div class="toolbar">
+              <label class="field field--grow">
+                <span class="field__label">搜尋（商家、類別、備註、messageID、金額）</span>
+                <input id="q-search" class="input" type="search" placeholder="例如：超市、待補、synthetic" autocomplete="off">
+              </label>
+              <label class="field">
+                <span class="field__label">類別</span>
+                <select id="q-category" class="select"></select>
+              </label>
+              <label class="field">
+                <span class="field__label">狀態</span>
+                <select id="q-status" class="select">
+                  <option value="all">全部</option>
+                  <option value="settled">已入帳</option>
+                  <option value="authorization">僅授權</option>
+                  <option value="refund">退款（負數）</option>
+                  <option value="incomplete">金額或日期待補</option>
+                </select>
+              </label>
+              <label class="field">
+                <span class="field__label">範圍</span>
+                <select id="q-scope" class="select">
+                  <option value="month">所選月份＋日期待補</option>
+                  <option value="all">所有月份</option>
+                </select>
+              </label>
+              <button class="btn btn--primary" id="add-tx" type="button">＋ 新增示範交易</button>
+            </div>
+            <p class="muted small" id="tx-count" aria-live="polite"></p>
+            <div id="tx-table"></div>
+          </div>
+        </section>
+
+        <section id="sec-bills" class="section" hidden></section>
+        <section id="sec-import" class="section" hidden></section>
+        <section id="sec-about" class="section" hidden></section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog id="dlg-confirm" class="dialog" aria-labelledby="dlg-confirm-title">
+    <form method="dialog" class="dialog__body">
+      <h2 id="dlg-confirm-title" class="dialog__title"></h2>
+      <div id="dlg-confirm-msg" class="dialog__msg"></div>
+      <div class="dialog__actions">
+        <button class="btn btn--ghost" value="cancel" type="submit">取消</button>
+        <button class="btn btn--primary" value="ok" type="submit" id="dlg-confirm-ok">確認</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-tx" class="dialog dialog--wide" aria-labelledby="dlg-tx-title">
+    <form class="dialog__body" id="tx-form" novalidate>
+      <h2 id="dlg-tx-title" class="dialog__title">新增示範交易</h2>
+      <div class="form-grid">
+        <fieldset class="seg seg--form" id="tx-type">
+          <legend class="field__label">類型</legend>
+          <label class="seg__opt"><input type="radio" name="type" value="expense" checked><span>消費（正數）</span></label>
+          <label class="seg__opt"><input type="radio" name="type" value="refund"><span>退款（存為負數）</span></label>
+        </fieldset>
+        <label class="field">
+          <span class="field__label">日期（未知請留空 → 待補）</span>
+          <input class="input" type="date" name="date">
+        </label>
+        <label class="field">
+          <span class="field__label">金額（未知請留空 → 待補）</span>
+          <input class="input num" type="text" name="amount" inputmode="decimal" autocomplete="off" placeholder="例如 1280">
+        </label>
+        <label class="field">
+          <span class="field__label">幣別</span>
+          <select class="select" name="currency"></select>
+        </label>
+        <label class="field">
+          <span class="field__label">帳本（必須明確選擇）</span>
+          <select class="select" name="ledger" required></select>
+        </label>
+        <label class="field">
+          <span class="field__label">類別（與帳本分開）</span>
+          <select class="select" name="category" required></select>
+        </label>
+        <label class="field">
+          <span class="field__label">入帳狀態</span>
+          <select class="select" name="status">
+            <option value="settled">已入帳</option>
+            <option value="authorization">僅授權（不計入合計）</option>
+          </select>
+        </label>
+        <label class="field field--full">
+          <span class="field__label">商家／說明</span>
+          <input class="input" type="text" name="merchant" maxlength="60" required autocomplete="off">
+        </label>
+        <label class="field field--full" id="refund-of-field" hidden>
+          <span class="field__label">連結原始消費（選填；連結後「原始消費調整」檢視會歸回原月份）</span>
+          <select class="select" name="refundOf"></select>
+        </label>
+        <label class="field field--full">
+          <span class="field__label">備註（純文字）</span>
+          <input class="input" type="text" name="note" maxlength="120" autocomplete="off">
+        </label>
+      </div>
+      <p class="muted small">帳本不會依商家名稱自動判斷；不確定時請選「待確認」，之後再明確指定。</p>
+      <div class="form-errors" id="tx-errors" role="alert"></div>
+      <div class="dialog__actions">
+        <button class="btn btn--ghost" type="button" id="tx-cancel">取消</button>
+        <button class="btn btn--primary" type="submit">儲存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-assign" class="dialog" aria-labelledby="dlg-assign-title">
+    <form class="dialog__body" id="assign-form" novalidate>
+      <h2 id="dlg-assign-title" class="dialog__title">指定帳本</h2>
+      <div id="assign-info" class="dialog__msg"></div>
+      <fieldset class="seg seg--form" id="assign-ledgers">
+        <legend class="field__label">選擇帳本</legend>
+      </fieldset>
+      <label class="check">
+        <input type="checkbox" id="assign-confirm">
+        <span>我確認此帳本歸屬由我親自指定（系統不會依商家推斷用途）。</span>
+      </label>
+      <div class="form-errors" id="assign-errors" role="alert"></div>
+      <div class="dialog__actions">
+        <button class="btn btn--ghost" type="button" id="assign-cancel">取消</button>
+        <button class="btn btn--primary" type="submit">確認指定</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+/* src/finance.js */
+/*
+ * finance.js — 純函式財務核心（無 DOM、無網路、無外部相依）。
+ * 同時支援瀏覽器（window.FinanceCore）與 Node（module.exports）。
+ * 所有金額以「最小貨幣單位整數」加總，避免浮點誤差；不做任何匯率換算。
+ */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.FinanceCore = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  var STORAGE_VERSION = 1;
+  var STORAGE_KEY = 'finance-demo-state';
+
+  var CURRENCIES = {
+    TWD: { label: '新台幣', symbol: 'NT$', decimals: 0 },
+    JPY: { label: '日圓', symbol: '¥', decimals: 0 },
+    USD: { label: '美元', symbol: 'US$', decimals: 2 }
+  };
+  var CURRENCY_KEYS = ['TWD', 'JPY', 'USD'];
+
+  var LEDGERS = { personal: '個人', family: '家庭', business: '公務', pending: '待確認' };
+  var LEDGER_KEYS = ['personal', 'family', 'business', 'pending'];
+  var ASSIGNABLE_LEDGERS = ['personal', 'family', 'business'];
+
+  var CATEGORIES = ['餐飲', '日用品', '交通', '居家', '娛樂', '醫療', '教育', '旅遊', '服飾', '軟體服務', '辦公', '其他'];
+
+  var STATUSES = { settled: '已入帳', authorization: '僅授權' };
+
+  var REASONS = {
+    pending_ledger: '帳本待確認：未計入此特定帳本（選「全部帳本」時才計入）',
+    authorization: '僅授權／預授權：尚未入帳，不計入已入帳合計',
+    missing_amount: '金額待補：不以 0 計算，排除於合計',
+    missing_date: '日期待補：無法歸屬月份，排除於所有月份合計'
+  };
+
+  // ---------- 基本工具 ----------
+  function isValidDate(s) {
+    if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+    var p = s.split('-').map(Number);
+    var d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+    return d.getUTCFullYear() === p[0] && d.getUTCMonth() === p[1] - 1 && d.getUTCDate() === p[2];
+  }
+
+  function isValidMonth(s) {
+    return typeof s === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(s);
+  }
+
+  function monthOf(date) {
+    return isValidDate(date) ? date.slice(0, 7) : null;
+  }
+
+  function daysInMonth(month) {
+    var p = month.split('-').map(Number);
+    return new Date(Date.UTC(p[0], p[1], 0)).getUTCDate();
+  }
+
+  function shiftMonth(month, delta) {
+    var p = month.split('-').map(Number);
+    var d = new Date(Date.UTC(p[0], p[1] - 1 + delta, 1));
+    return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0');
+  }
+
+  function daysBetween(fromDate, toDate) {
+    var a = fromDate.split('-').map(Number);
+    var b = toDate.split('-').map(Number);
+    return Math.round((Date.UTC(b[0], b[1] - 1, b[2]) - Date.UTC(a[0], a[1] - 1, a[2])) / 86400000);
+  }
+
+  function hasAmount(tx) {
+    return typeof tx.amount === 'number' && isFinite(tx.amount);
+  }
+
+  function toMinor(amount, currency) {
+    var c = CURRENCIES[currency];
+    if (!c) throw new Error('不支援的幣別：' + currency);
+    return Math.round(amount * Math.pow(10, c.decimals));
+  }
+
+  function fromMinor(minor, currency) {
+    return minor / Math.pow(10, CURRENCIES[currency].decimals);
+  }
+
+  /** 金額格式化；null/undefined 一律顯示「待補」而非 0。負數使用 U+2212 減號。 */
+  function formatMoney(amount, currency, opts) {
+    opts = opts || {};
+    if (amount === null || amount === undefined || typeof amount !== 'number' || !isFinite(amount)) return '待補';
+    var c = CURRENCIES[currency];
+    if (!c) return String(amount);
+    var minor = toMinor(amount, currency);
+    var abs = Math.abs(minor) / Math.pow(10, c.decimals);
+    var s = abs.toLocaleString('en-US', { minimumFractionDigits: c.decimals, maximumFractionDigits: c.decimals });
+    var sign = minor < 0 ? '−' : (opts.plus && minor > 0 ? '+' : '');
+    return sign + c.symbol + s;
+  }
+
+  function formatShare(share) {
+    if (share === null || share === undefined || !isFinite(share)) return '—';
+    return (share * 100).toFixed(1) + '%';
+  }
+
+  function clone(v) {
+    return JSON.parse(JSON.stringify(v));
+  }
+
+  // ---------- 交易分類 ----------
+  /** 回傳排除原因（不含帳本）。空陣列代表可計入已入帳合計。 */
+  function exclusionReasons(tx) {
+    var r = [];
+    if (tx.status === 'authorization') r.push('authorization');
+    if (!hasAmount(tx)) r.push('missing_amount');
+    if (!isValidDate(tx.date)) r.push('missing_date');
+    return r;
+  }
+
+  function isCountable(tx) {
+    return exclusionReasons(tx).length === 0;
+  }
+
+  function isRefund(tx) {
+    return tx.type === 'refund' || (hasAmount(tx) && tx.amount < 0);
+  }
+
+  /**
+   * 歸屬月份：
+   *  - cash（介面名稱「依交易日期（示範）」）：依交易紀錄上的日期。
+   *    此日期來自合成通知資料，並非經銀行獨立驗證的實際金流或付款日期。
+   *  - adjusted（原始消費調整）：已連結原始消費的退款，歸回原始消費月份；其餘依本身日期。
+   *  日期待補者回傳 null（不回溯、不猜測）。
+   */
+  function attributionMonth(tx, view, byId) {
+    if (!isValidDate(tx.date)) return null;
+    if (view === 'adjusted' && isRefund(tx) && tx.refundOf && byId) {
+      var orig = byId.get(tx.refundOf);
+      if (orig && orig.currency === tx.currency && isValidDate(orig.date)) return monthOf(orig.date);
+    }
+    return monthOf(tx.date);
+  }
+
+  function indexById(txs) {
+    var m = new Map();
+    txs.forEach(function (t) { m.set(t.id, t); });
+    return m;
+  }
+
+  // ---------- 月份彙總 ----------
+  /**
+   * computeSummary(txs, { month, currency, ledger = 'all', view = 'cash' })
+   * 公式：
+   *   總支出 gross   = Σ amount（amount > 0，已入帳、有日期、有金額、歸屬本月、符合幣別與帳本）
+   *   退款 refunds   = Σ amount（amount < 0，同上條件；為負數）
+   *   淨支出 net     = gross + refunds
+   */
+  function computeSummary(txs, opts) {
+    var month = opts.month;
+    var currency = opts.currency;
+    var ledger = opts.ledger || 'all';
+    var view = opts.view === 'adjusted' ? 'adjusted' : 'cash';
+    if (!isValidMonth(month)) throw new Error('月份格式錯誤：' + month);
+    if (!CURRENCIES[currency]) throw new Error('不支援的幣別：' + currency);
+
+    var byId = indexById(txs);
+    var included = [];
+    var exclusions = [];
+    var otherCurrency = {};
+    var notes = { laterLinkedRefunds: [], movedOut: [], movedIn: [] };
+
+    txs.forEach(function (t) {
+      if (t.currency !== currency) {
+        if (monthOf(t.date) === month && (ledger === 'all' || t.ledger === ledger)) {
+          otherCurrency[t.currency] = (otherCurrency[t.currency] || 0) + 1;
+        }
+        return;
+      }
+      var attr = attributionMonth(t, view, byId);
+      var reasons = exclusionReasons(t);
+      var relevant = attr === month || attr === null; // 日期待補者在每個月份都列出說明
+
+      if (ledger !== 'all' && t.ledger !== ledger) {
+        if (t.ledger === 'pending' && relevant) {
+          exclusions.push({ tx: t, reasons: ['pending_ledger'].concat(reasons) });
+        }
+        return;
+      }
+
+      // 說明性註記（不影響合計）
+      if (isRefund(t) && t.refundOf && isValidDate(t.date)) {
+        var orig = byId.get(t.refundOf);
+        if (orig && orig.currency === t.currency && isValidDate(orig.date) && monthOf(orig.date) !== monthOf(t.date)) {
+          if (view === 'cash' && monthOf(orig.date) === month) notes.laterLinkedRefunds.push(t);
+          if (view === 'adjusted' && monthOf(t.date) === month) notes.movedOut.push(t);
+          if (view === 'adjusted' && monthOf(orig.date) === month) notes.movedIn.push(t);
+        }
+      }
+
+      if (!relevant) return;
+      if (reasons.length) {
+        exclusions.push({ tx: t, reasons: reasons });
+        return;
+      }
+      included.push({ tx: t, attributedMonth: attr, backdated: attr !== monthOf(t.date) });
+    });
+
+    var grossMinor = 0;
+    var refundsMinor = 0;
+    var expenseCount = 0;
+    var refundCount = 0;
+    var cats = {};
+    var refundCats = {};
+    var nDays = daysInMonth(month);
+    var daily = [];
+    for (var d = 1; d <= nDays; d++) daily.push({ day: d, grossMinor: 0, refundsMinor: 0 });
+    var backdatedRefundsMinor = 0;
+
+    included.forEach(function (it) {
+      var m = toMinor(it.tx.amount, currency);
+      var cat = it.tx.category || '其他';
+      if (m >= 0) {
+        grossMinor += m;
+        expenseCount++;
+        cats[cat] = (cats[cat] || 0) + m;
+      } else {
+        refundsMinor += m;
+        refundCount++;
+        refundCats[cat] = (refundCats[cat] || 0) + m;
+      }
+      if (it.backdated) {
+        backdatedRefundsMinor += m;
+      } else {
+        var day = Number(it.tx.date.slice(8, 10));
+        if (m >= 0) daily[day - 1].grossMinor += m;
+        else daily[day - 1].refundsMinor += m;
+      }
+    });
+
+    var netMinor = grossMinor + refundsMinor;
+    var categories = Object.keys(cats).map(function (k) {
+      var rm = refundCats[k] || 0;
+      return {
+        category: k,
+        gross: fromMinor(cats[k], currency),
+        share: grossMinor > 0 ? cats[k] / grossMinor : null,
+        refunds: fromMinor(rm, currency),
+        net: fromMinor(cats[k] + rm, currency)
+      };
+    }).sort(function (a, b) { return b.gross - a.gross || a.category.localeCompare(b.category); });
+
+    var refundCategories = Object.keys(refundCats).map(function (k) {
+      return { category: k, refunds: fromMinor(refundCats[k], currency) };
+    }).sort(function (a, b) { return a.refunds - b.refunds; });
+
+    var reasonCounts = {};
+    exclusions.forEach(function (e) {
+      var r = e.reasons[0];
+      reasonCounts[r] = (reasonCounts[r] || 0) + 1;
+    });
+
+    return {
+      month: month,
+      currency: currency,
+      ledger: ledger,
+      view: view,
+      grossMinor: grossMinor,
+      refundsMinor: refundsMinor,
+      netMinor: netMinor,
+      gross: fromMinor(grossMinor, currency),
+      refunds: fromMinor(refundsMinor, currency),
+      net: fromMinor(netMinor, currency),
+      reconciled: grossMinor + refundsMinor === netMinor &&
+        included.reduce(function (s, it) { return s + toMinor(it.tx.amount, currency); }, 0) === netMinor,
+      includedCount: included.length,
+      expenseCount: expenseCount,
+      refundCount: refundCount,
+      included: included,
+      exclusions: exclusions,
+      reasonCounts: reasonCounts,
+      otherCurrency: otherCurrency,
+      categories: categories,
+      refundCategories: refundCategories,
+      daily: daily.map(function (x) {
+        return { day: x.day, gross: fromMinor(x.grossMinor, currency), refunds: fromMinor(x.refundsMinor, currency) };
+      }),
+      backdatedRefunds: fromMinor(backdatedRefundsMinor, currency),
+      notes: notes
+    };
+  }
+
+  function monthlyTrend(txs, opts) {
+    var end = opts.endMonth;
+    var count = opts.count || 6;
+    var out = [];
+    for (var i = count - 1; i >= 0; i--) {
+      var m = shiftMonth(end, -i);
+      var s = computeSummary(txs, { month: m, currency: opts.currency, ledger: opts.ledger, view: opts.view });
+      out.push({ month: m, gross: s.gross, refunds: s.refunds, net: s.net, count: s.includedCount });
+    }
+    return out;
+  }
+
+  function availableMonths(txs, extra) {
+    var set = {};
+    txs.forEach(function (t) { var m = monthOf(t.date); if (m) set[m] = true; });
+    (extra || []).forEach(function (m) { if (isValidMonth(m)) set[m] = true; });
+    return Object.keys(set).sort();
+  }
+
+  // ---------- 篩選／搜尋／排序 ----------
+  function searchText(tx) {
+    return [tx.merchant, tx.category, tx.note, tx.messageId, tx.sourceLabel, LEDGERS[tx.ledger], STATUSES[tx.status],
+      tx.currency, tx.date || '待補', hasAmount(tx) ? String(Math.abs(tx.amount)) : '待補']
+      .filter(Boolean).join(' ').toLowerCase();
+  }
+
+  /**
+   * filterTransactions(txs, { month|'all', currency|'all', ledger|'all', category|'all',
+   *   status: 'all'|'settled'|'authorization'|'incomplete'|'refund', search, includeUndated = true })
+   */
+  function filterTransactions(txs, f) {
+    f = f || {};
+    var q = (f.search || '').trim().toLowerCase();
+    var terms = q ? q.split(/\s+/) : [];
+    var includeUndated = f.includeUndated !== false;
+    return txs.filter(function (t) {
+      if (f.month && f.month !== 'all') {
+        var m = monthOf(t.date);
+        if (m === null) { if (!includeUndated) return false; }
+        else if (m !== f.month) return false;
+      }
+      if (f.currency && f.currency !== 'all' && t.currency !== f.currency) return false;
+      if (f.ledger && f.ledger !== 'all' && t.ledger !== f.ledger) return false;
+      if (f.category && f.category !== 'all' && t.category !== f.category) return false;
+      if (f.status && f.status !== 'all') {
+        if (f.status === 'incomplete') { if (hasAmount(t) && isValidDate(t.date)) return false; }
+        else if (f.status === 'refund') { if (!isRefund(t)) return false; }
+        else if (t.status !== f.status) return false;
+      }
+      if (terms.length) {
+        var hay = searchText(t);
+        for (var i = 0; i < terms.length; i++) if (hay.indexOf(terms[i]) === -1) return false;
+      }
+      return true;
+    });
+  }
+
+  /** 排序；待補（null）值無論升降冪都排在最後。 */
+  function sortTransactions(txs, key, dir) {
+    var mul = dir === 'asc' ? 1 : -1;
+    function val(t) {
+      switch (key) {
+        case 'amount': return hasAmount(t) ? t.amount : null;
+        case 'merchant': return t.merchant || null;
+        case 'category': return t.category || null;
+        case 'ledger': return LEDGER_KEYS.indexOf(t.ledger);
+        case 'date':
+        default: return isValidDate(t.date) ? t.date : null;
+      }
+    }
+    return txs.map(function (t, i) { return { t: t, i: i, v: val(t) }; }).sort(function (a, b) {
+      if (a.v === null && b.v === null) return a.i - b.i;
+      if (a.v === null) return 1;
+      if (b.v === null) return -1;
+      var c = typeof a.v === 'number' ? a.v - b.v : String(a.v).localeCompare(String(b.v), 'zh-Hant');
+      return c !== 0 ? c * mul : a.i - b.i;
+    }).map(function (x) { return x.t; });
+  }
+
+  // ---------- 新增／編輯 ----------
+  function parseAmountInput(raw, currency) {
+    if (raw === null || raw === undefined) return { value: null };
+    var s = String(raw).replace(/[,\s]/g, '');
+    if (s === '') return { value: null };
+    if (!/^\d+(\.\d+)?$/.test(s)) return { error: '金額需為正數（退款請選擇「退款」類型）' };
+    var dec = CURRENCIES[currency] ? CURRENCIES[currency].decimals : 0;
+    var frac = s.split('.')[1] || '';
+    if (frac.length > dec) return { error: currency + ' 最多 ' + dec + ' 位小數' };
+    var v = Number(s);
+    if (v === 0) return { error: '金額不可為 0；未知金額請留空（顯示為待補）' };
+    return { value: v };
+  }
+
+  /**
+   * 表單輸入 → 交易物件。帳本必須明確選擇（可選「待確認」），絕不依商家推斷。
+   * 退款以負數儲存。金額或日期留空 → null（待補）。
+   */
+  function normalizeTxInput(input, existing) {
+    var errors = [];
+    var currency = input.currency;
+    if (!CURRENCIES[currency]) errors.push('請選擇幣別');
+    if (LEDGER_KEYS.indexOf(input.ledger) === -1) errors.push('請明確選擇帳本（不確定請選「待確認」）');
+    if (CATEGORIES.indexOf(input.category) === -1) errors.push('請選擇類別');
+    if (!STATUSES[input.status]) errors.push('請選擇入帳狀態');
+    var type = input.type === 'refund' ? 'refund' : 'expense';
+    var date = input.date ? String(input.date) : null;
+    if (date !== null && !isValidDate(date)) errors.push('日期格式錯誤');
+    var merchant = String(input.merchant || '').trim();
+    if (!merchant) errors.push('請輸入商家或說明');
+    var amt = CURRENCIES[currency] ? parseAmountInput(input.amount, currency) : { value: null };
+    if (amt.error) errors.push(amt.error);
+    var amount = amt.value === null || amt.value === undefined ? null : (type === 'refund' ? -amt.value : amt.value);
+
+    var refundOf = null;
+    if (type === 'refund' && input.refundOf) {
+      var orig = (existing || []).find(function (t) { return t.id === input.refundOf; });
+      if (!orig) errors.push('找不到連結的原始消費');
+      else if (orig.currency !== currency) errors.push('退款幣別須與原始消費相同（不做匯率換算）');
+      else if (isRefund(orig)) errors.push('只能連結到消費，不能連結到另一筆退款');
+      else refundOf = orig.id;
+    }
+
+    var tx = {
+      id: input.id || null,
+      date: date,
+      amount: amount,
+      currency: currency,
+      ledger: input.ledger,
+      category: input.category,
+      merchant: merchant,
+      note: String(input.note || '').trim(),
+      status: input.status,
+      type: type,
+      refundOf: refundOf,
+      messageId: input.messageId || null,
+      sourceLabel: input.sourceLabel || '手動新增（示範）'
+    };
+    return { tx: tx, errors: errors };
+  }
+
+  function upsertTransaction(txs, tx, newId) {
+    if (tx.id && txs.some(function (t) { return t.id === tx.id; })) {
+      return txs.map(function (t) { return t.id === tx.id ? Object.assign({}, tx) : t; });
+    }
+    var copy = Object.assign({}, tx, { id: tx.id || newId });
+    if (!copy.id) throw new Error('新交易需要 id');
+    return txs.concat([copy]);
+  }
+
+  /** 明確指定帳本：必須 confirmed === true，且不得指定回「待確認」。 */
+  function assignLedger(txs, id, ledger, opts) {
+    if (!opts || opts.confirmed !== true) throw new Error('需要使用者明確確認帳本歸屬');
+    if (ASSIGNABLE_LEDGERS.indexOf(ledger) === -1) throw new Error('帳本無效：' + ledger);
+    var found = false;
+    var out = txs.map(function (t) {
+      if (t.id !== id) return t;
+      found = true;
+      return Object.assign({}, t, { ledger: ledger, ledgerConfirmedBy: 'user' });
+    });
+    if (!found) throw new Error('找不到交易：' + id);
+    return out;
+  }
+
+  // ---------- 匯入預覽（本機、無連線） ----------
+  function compositeKey(r) {
+    return [r.date || '?', hasAmount(r) ? toMinor(r.amount, r.currency) : '?', r.currency,
+      String(r.merchant || '').trim().toLowerCase()].join('|');
+  }
+
+  /**
+   * importPreview(existing, rows)
+   * 每列狀態：invalid / duplicate_existing（messageID 已存在）/ duplicate_batch（批次內重複）/
+   *           possible_duplicate（日期+金額+幣別+商家相同但 messageID 不同）/ new。
+   * 匯入列一律指定為「待確認」帳本，不依商家推斷用途。
+   */
+  function importPreview(existing, rows) {
+    if (!Array.isArray(rows)) throw new Error('匯入資料必須是陣列');
+    var existingIds = {};
+    var existingKeys = {};
+    existing.forEach(function (t) {
+      if (t.messageId) existingIds[t.messageId] = t.id;
+      existingKeys[compositeKey(t)] = t.id;
+    });
+    var seenIds = {};
+    var seenKeys = {};
+    return rows.map(function (raw, index) {
+      var errors = [];
+      var warnings = [];
+      var r = raw && typeof raw === 'object' ? raw : {};
+      var messageId = typeof r.messageId === 'string' ? r.messageId.trim() : '';
+      if (!messageId) errors.push('缺少 messageID（重複判斷鍵）');
+      if (!CURRENCIES[r.currency]) errors.push('不支援的幣別：' + (r.currency || '空白'));
+      var date = r.date === null || r.date === undefined || r.date === '' ? null : r.date;
+      if (date !== null && !isValidDate(date)) errors.push('日期格式錯誤');
+      var amount = r.amount === null || r.amount === undefined || r.amount === '' ? null : r.amount;
+      if (amount !== null && (typeof amount !== 'number' || !isFinite(amount) || amount === 0)) errors.push('金額需為非 0 數字或 null');
+      else if (amount !== null && CURRENCIES[r.currency] && Math.abs(toMinor(amount, r.currency) - amount * Math.pow(10, CURRENCIES[r.currency].decimals)) > 1e-6) {
+        errors.push('金額小數位數超過幣別允許範圍');
+      }
+      var category = CATEGORIES.indexOf(r.category) >= 0 ? r.category : '其他';
+      if (r.category && category !== r.category) warnings.push('類別不在清單中，改列「其他」');
+      var status = r.status === 'authorization' ? 'authorization' : 'settled';
+      if (amount === null) warnings.push('金額待補');
+      if (date === null) warnings.push('日期待補');
+      if (status === 'authorization') warnings.push('僅授權，不計入已入帳合計');
+
+      var tx = {
+        id: null,
+        date: date,
+        amount: amount,
+        currency: r.currency,
+        ledger: 'pending',
+        category: category,
+        merchant: String(r.merchant || '').trim() || '（未提供商家）',
+        note: String(r.note || '').trim(),
+        status: status,
+        type: typeof amount === 'number' && amount < 0 ? 'refund' : 'expense',
+        refundOf: null,
+        messageId: messageId || null,
+        sourceLabel: String(r.sourceLabel || '匯入預覽（合成）')
+      };
+
+      var state;
+      var matchId = null;
+      if (errors.length) state = 'invalid';
+      else if (existingIds[messageId]) { state = 'duplicate_existing'; matchId = existingIds[messageId]; }
+      else if (seenIds[messageId] !== undefined) { state = 'duplicate_batch'; matchId = '第 ' + (seenIds[messageId] + 1) + ' 列'; }
+      else {
+        var key = compositeKey(tx);
+        if (existingKeys[key]) { state = 'possible_duplicate'; matchId = existingKeys[key]; }
+        else if (seenKeys[key] !== undefined) { state = 'possible_duplicate'; matchId = '第 ' + (seenKeys[key] + 1) + ' 列'; }
+        else state = 'new';
+        seenKeys[key] = index;
+      }
+      if (messageId && seenIds[messageId] === undefined) seenIds[messageId] = index;
+
+      return {
+        index: index,
+        state: state,
+        selectable: state === 'new' || state === 'possible_duplicate',
+        defaultSelected: state === 'new',
+        matchId: matchId,
+        errors: errors,
+        warnings: warnings,
+        tx: tx
+      };
+    });
+  }
+
+  /** 確認匯入：需 confirmed === true；只接受可選列；再次檢查 messageID 不重複。 */
+  function commitImport(existing, preview, selectedIndexes, opts, makeId) {
+    if (!opts || opts.confirmed !== true) throw new Error('匯入前需要使用者確認');
+    var ids = {};
+    existing.forEach(function (t) { if (t.messageId) ids[t.messageId] = true; });
+    var sel = {};
+    (selectedIndexes || []).forEach(function (i) { sel[i] = true; });
+    var added = [];
+    var skipped = [];
+    preview.forEach(function (row) {
+      if (!sel[row.index]) return;
+      if (!row.selectable || ids[row.tx.messageId]) { skipped.push(row.index); return; }
+      ids[row.tx.messageId] = true;
+      added.push(Object.assign({}, row.tx, { id: makeId ? makeId(row) : 'imp-' + row.index + '-' + row.tx.messageId }));
+    });
+    return { transactions: existing.concat(added), added: added.length, skipped: skipped };
+  }
+
+  // ---------- 帳單（模擬） ----------
+  var BILL_STATES = {
+    paid: '已付款（模擬）',
+    overdue: '已逾期（模擬）',
+    reminder: '提醒中（模擬）',
+    scheduled: '尚未到期（模擬）',
+    undated: '到期日待補'
+  };
+
+  function billStatus(bill, today) {
+    if (bill.paidDate) return { state: 'paid', days: null };
+    if (!isValidDate(bill.dueDate)) return { state: 'undated', days: null };
+    var days = daysBetween(today, bill.dueDate);
+    if (days < 0) return { state: 'overdue', days: days };
+    if (days <= (bill.reminderDays || 0)) return { state: 'reminder', days: days };
+    return { state: 'scheduled', days: days };
+  }
+
+  function markBillPaid(bills, id, paidDate, opts) {
+    if (!opts || opts.confirmed !== true) throw new Error('需要確認模擬付款');
+    if (!isValidDate(paidDate)) throw new Error('付款日期錯誤');
+    return bills.map(function (b) { return b.id === id ? Object.assign({}, b, { paidDate: paidDate }) : b; });
+  }
+
+  function markBillUnpaid(bills, id) {
+    return bills.map(function (b) { return b.id === id ? Object.assign({}, b, { paidDate: null }) : b; });
+  }
+
+  // ---------- 本機儲存（版本化） ----------
+  function validateStoredTx(t) {
+    return t && typeof t === 'object' && typeof t.id === 'string' &&
+      (t.date === null || isValidDate(t.date)) &&
+      (t.amount === null || (typeof t.amount === 'number' && isFinite(t.amount))) &&
+      !!CURRENCIES[t.currency] && LEDGER_KEYS.indexOf(t.ledger) >= 0 && !!STATUSES[t.status];
+  }
+
+  function serializeState(state, savedAt) {
+    return JSON.stringify({
+      version: STORAGE_VERSION,
+      savedAt: savedAt || null,
+      transactions: state.transactions,
+      bills: state.bills
+    });
+  }
+
+  function parseState(str) {
+    if (!str) return { ok: false, error: 'empty' };
+    var obj;
+    try { obj = JSON.parse(str); } catch (e) { return { ok: false, error: 'invalid_json' }; }
+    if (!obj || obj.version !== STORAGE_VERSION) return { ok: false, error: 'version_mismatch', found: obj && obj.version };
+    if (!Array.isArray(obj.transactions) || !Array.isArray(obj.bills)) return { ok: false, error: 'invalid_shape' };
+    if (!obj.transactions.every(validateStoredTx)) return { ok: false, error: 'invalid_transaction' };
+    return { ok: true, state: { transactions: obj.transactions, bills: obj.bills }, savedAt: obj.savedAt || null };
+  }
+
+  return {
+    STORAGE_VERSION: STORAGE_VERSION,
+    STORAGE_KEY: STORAGE_KEY,
+    CURRENCIES: CURRENCIES,
+    CURRENCY_KEYS: CURRENCY_KEYS,
+    LEDGERS: LEDGERS,
+    LEDGER_KEYS: LEDGER_KEYS,
+    ASSIGNABLE_LEDGERS: ASSIGNABLE_LEDGERS,
+    CATEGORIES: CATEGORIES,
+    STATUSES: STATUSES,
+    REASONS: REASONS,
+    BILL_STATES: BILL_STATES,
+    isValidDate: isValidDate,
+    isValidMonth: isValidMonth,
+    monthOf: monthOf,
+    shiftMonth: shiftMonth,
+    daysInMonth: daysInMonth,
+    daysBetween: daysBetween,
+    hasAmount: hasAmount,
+    toMinor: toMinor,
+    fromMinor: fromMinor,
+    formatMoney: formatMoney,
+    formatShare: formatShare,
+    clone: clone,
+    exclusionReasons: exclusionReasons,
+    isCountable: isCountable,
+    isRefund: isRefund,
+    attributionMonth: attributionMonth,
+    computeSummary: computeSummary,
+    monthlyTrend: monthlyTrend,
+    availableMonths: availableMonths,
+    filterTransactions: filterTransactions,
+    sortTransactions: sortTransactions,
+    parseAmountInput: parseAmountInput,
+    normalizeTxInput: normalizeTxInput,
+    upsertTransaction: upsertTransaction,
+    assignLedger: assignLedger,
+    compositeKey: compositeKey,
+    importPreview: importPreview,
+    commitImport: commitImport,
+    billStatus: billStatus,
+    markBillPaid: markBillPaid,
+    markBillUnpaid: markBillUnpaid,
+    serializeState: serializeState,
+    parseState: parseState
+  };
+});
+
+</script>
+  <script>
+/* src/data.js */
+/*
+ * data.js — 完全虛構的示範資料（合成）。不含任何真實帳戶、郵件或試算表內容。
+ * messageId 皆為合成字串，使用保留網域 .invalid，不對應任何真實郵件。
+ */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.FinanceDemoData = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  var SRC = '示範郵件通知（合成）';
+  function tx(id, date, amount, currency, ledger, category, merchant, extra) {
+    return Object.assign({
+      id: id,
+      date: date,
+      amount: amount,
+      currency: currency,
+      ledger: ledger,
+      category: category,
+      merchant: merchant,
+      note: '',
+      status: 'settled',
+      type: typeof amount === 'number' && amount < 0 ? 'refund' : 'expense',
+      refundOf: null,
+      messageId: '<demo-' + id + '@synthetic.invalid>',
+      sourceLabel: SRC
+    }, extra || {});
+  }
+
+  var transactions = [
+    // ===== 2026-08 TWD =====
+    tx('aug-01', '2026-08-06', 1980, 'TWD', 'family', '日用品', '好鄰居超市（示範）'),
+    tx('aug-02', '2026-08-10', 6000, 'TWD', 'business', '辦公', '共享辦公空間（示範）'),
+    tx('aug-03', '2026-08-18', 720, 'TWD', 'personal', '教育', '小巷書房（示範）'),
+    tx('aug-04', '2026-08-29', 1650, 'TWD', 'family', '居家', '水電瓦斯帳單（示範）'),
+
+    // ===== 2026-09 TWD / USD =====
+    tx('sep-01', '2026-09-05', 2050, 'TWD', 'family', '日用品', '好鄰居超市（示範）'),
+    tx('sep-02', '2026-09-10', 6000, 'TWD', 'business', '辦公', '共享辦公空間（示範）'),
+    tx('sep-03', '2026-09-14', 500, 'TWD', 'personal', '交通', '城市捷運儲值（示範）'),
+    tx('sep-04', '2026-09-20', 480, 'TWD', 'personal', '娛樂', '星河影城（示範）'),
+    tx('sep-05', '2026-09-25', 1720, 'TWD', 'family', '居家', '水電瓦斯帳單（示範）'),
+    tx('sep-06', '2026-09-28', 980, 'TWD', 'personal', '餐飲', '巷口家常小館（示範）'),
+    tx('sep-u1', '2026-09-01', 24.99, 'USD', 'business', '軟體服務', '雲端主機服務（示範）'),
+
+    // ===== 2026-10 TWD 個人 =====
+    tx('oct-p1', '2026-10-02', 185, 'TWD', 'personal', '餐飲', '晨光早餐坊（示範）'),
+    tx('oct-p2', '2026-10-04', 500, 'TWD', 'personal', '交通', '城市捷運儲值（示範）'),
+    tx('oct-p3', '2026-10-08', 3280, 'TWD', 'personal', '服飾', '森林選品服飾（示範）', { note: '外套；11 月已整筆退貨（見 11/05 退款）' }),
+    tx('oct-p4', '2026-10-11', 640, 'TWD', 'personal', '教育', '小巷書房（示範）'),
+    tx('oct-p5', '2026-10-15', 560, 'TWD', 'personal', '娛樂', '星河影城（示範）'),
+    tx('oct-p6', '2026-10-18', 420, 'TWD', 'personal', '醫療', '光點藥局（示範）'),
+    tx('oct-p6r', '2026-10-20', -120, 'TWD', 'personal', '醫療', '光點藥局（示範）', { refundOf: 'oct-p6', note: '同月部分退款' }),
+    tx('oct-p7', '2026-10-22', null, 'TWD', 'personal', '軟體服務', '雲端相簿方案（示範）', { note: '通知信未載明金額 → 待補' }),
+    tx('oct-a1', '2026-10-28', 8800, 'TWD', 'personal', '旅遊', '海岸旅店（示範）', { status: 'authorization', note: '訂房預授權，尚未請款' }),
+
+    // ===== 2026-10 TWD 家庭 =====
+    tx('oct-f1', '2026-10-03', 2365, 'TWD', 'family', '日用品', '好鄰居超市（示範）'),
+    tx('oct-f2', '2026-10-09', 1880, 'TWD', 'family', '居家', '水電瓦斯帳單（示範）'),
+    tx('oct-f3', '2026-10-12', 1560, 'TWD', 'family', '餐飲', '巷口家常小館（示範）'),
+    tx('oct-f4', '2026-10-19', 4500, 'TWD', 'family', '教育', '親子才藝教室（示範）'),
+    tx('oct-f5', '2026-10-26', 1742, 'TWD', 'family', '日用品', '好鄰居超市（示範）'),
+    tx('oct-f6', '2026-10-27', -260, 'TWD', 'family', '日用品', '好鄰居超市（示範）', { note: '退貨；通知信未提供原始交易，未連結' }),
+    tx('und-f1', null, 2400, 'TWD', 'family', '居家', '社區管理費（示範）', { note: '通知信未載明扣款日期 → 待補' }),
+
+    // ===== 2026-10 TWD 公務 =====
+    tx('oct-b1', '2026-10-05', 6000, 'TWD', 'business', '辦公', '共享辦公空間（示範）'),
+    tx('oct-b2', '2026-10-14', 890, 'TWD', 'business', '辦公', '紙筆文具行（示範）'),
+    tx('oct-b3', '2026-10-21', 350, 'TWD', 'business', '交通', '城市快遞（示範）'),
+
+    // ===== 2026-10 TWD 帳本待確認（類別已知，用途未確認）=====
+    tx('oct-q1', '2026-10-16', 1299, 'TWD', 'pending', '其他', '綜合網購平台（示範）', { note: '用途未確認：請手動指定帳本' }),
+    tx('oct-q2', '2026-10-24', 238, 'TWD', 'pending', '日用品', '轉角便利商店（示範）', { note: '用途未確認：請手動指定帳本' }),
+
+    // ===== 2026-10 JPY（旅行）=====
+    tx('oct-j1', '2026-10-10', 2400, 'JPY', 'personal', '餐飲', '古都茶屋（示範）'),
+    tx('oct-j2', '2026-10-10', 1320, 'JPY', 'personal', '交通', '近郊電車（示範）'),
+    tx('oct-j3', '2026-10-11', 5800, 'JPY', 'family', '其他', '伴手禮小舖（示範）'),
+    tx('oct-j3r', '2026-10-12', -800, 'JPY', 'family', '其他', '伴手禮小舖（示範）', { refundOf: 'oct-j3', note: '同月部分退款' }),
+
+    // ===== 2026-10 USD（公務訂閱）=====
+    tx('oct-u1', '2026-10-01', 24.99, 'USD', 'business', '軟體服務', '雲端主機服務（示範）'),
+    tx('oct-u2', '2026-10-15', 12.00, 'USD', 'business', '軟體服務', '設計素材訂閱（示範）'),
+
+    // ===== 2026-11 =====
+    tx('nov-p1r', '2026-11-05', -3280, 'TWD', 'personal', '服飾', '森林選品服飾（示範）', { refundOf: 'oct-p3', note: '退還 10/08 外套（跨月退款）' }),
+    tx('nov-f1', '2026-11-02', 2130, 'TWD', 'family', '日用品', '好鄰居超市（示範）'),
+    tx('nov-p2', '2026-11-03', 165, 'TWD', 'personal', '餐飲', '晨光早餐坊（示範）'),
+    tx('nov-u1', '2026-11-01', 24.99, 'USD', 'business', '軟體服務', '雲端主機服務（示範）')
+  ];
+
+  var bills = [
+    { id: 'bill-1', name: '信用卡帳單 A 卡（示範）', ledger: 'personal', currency: 'TWD', amount: 12480, dueDate: '2026-10-28', reminderDays: 5, paidDate: null },
+    { id: 'bill-2', name: '行動電信月費（示範）', ledger: 'family', currency: 'TWD', amount: 1099, dueDate: '2026-10-20', reminderDays: 3, paidDate: null },
+    { id: 'bill-3', name: '共享辦公空間租金（示範）', ledger: 'business', currency: 'TWD', amount: 6000, dueDate: '2026-11-05', reminderDays: 7, paidDate: null },
+    { id: 'bill-4', name: '家庭保險保費（示範）', ledger: 'family', currency: 'TWD', amount: null, dueDate: '2026-11-15', reminderDays: 10, paidDate: null },
+    { id: 'bill-5', name: '雲端主機服務（示範）', ledger: 'business', currency: 'USD', amount: 24.99, dueDate: '2026-11-01', reminderDays: 5, paidDate: '2026-10-24' }
+  ];
+
+  // 匯入預覽示範批次：含重複 messageID、批次內重複、疑似重複、無效列、待補金額、負數退款。
+  var importSample = [
+    { messageId: '<demo-oct-p1@synthetic.invalid>', date: '2026-10-02', amount: 185, currency: 'TWD', merchant: '晨光早餐坊（示範）', category: '餐飲', note: '與既有交易 messageID 相同' },
+    { messageId: '<demo-imp-0001@synthetic.invalid>', date: '2026-10-29', amount: 120, currency: 'TWD', merchant: '社區自助洗衣（示範）', category: '居家' },
+    { messageId: '<demo-imp-0001@synthetic.invalid>', date: '2026-10-29', amount: 120, currency: 'TWD', merchant: '社區自助洗衣（示範）', category: '居家', note: '同一封信被轉寄兩次' },
+    { messageId: '<demo-imp-0002@synthetic.invalid>', date: '2026-10-26', amount: 1742, currency: 'TWD', merchant: '好鄰居超市（示範）', category: '日用品', note: '日期/金額/商家與既有交易相同' },
+    { messageId: '<demo-imp-0003@synthetic.invalid>', date: '2026-10-30', amount: 45, currency: 'EUR', merchant: '海外商店（示範）', category: '其他', note: '不支援的幣別' },
+    { messageId: '<demo-imp-0004@synthetic.invalid>', date: '2026-10-30', amount: null, currency: 'TWD', merchant: '線上課程平台（示範）', category: '教育', note: '金額未載明' },
+    { messageId: '<demo-imp-0005@synthetic.invalid>', date: '2026-11-04', amount: -560, currency: 'TWD', merchant: '星河影城（示範）', category: '娛樂', note: '退票（未連結原始交易）' }
+  ];
+
+  return {
+    DEMO_TODAY: '2026-10-25',
+    DEFAULT_MONTH: '2026-10',
+    DEFAULT_CURRENCY: 'TWD',
+    transactions: transactions,
+    bills: bills,
+    importSample: importSample
+  };
+});
+
+</script>
+  <script>
+/* src/app.js */
+/*
+ * app.js — 介面層。不做任何網路請求；資料只存在本機 localStorage。
+ * 所有使用者／匯入文字一律經 esc() 跳脫後才插入 HTML。
+ */
+(function () {
+  'use strict';
+  var F = window.FinanceCore;
+  var D = window.FinanceDemoData;
+
+  var CAT_COLORS = {
+    '餐飲': '#ff7a5c', '日用品': '#2bb3a3', '交通': '#3a9be8', '居家': '#f5b021', '娛樂': '#7c6cf0', '醫療': '#e85d8a',
+    '教育': '#0f8a7e', '旅遊': '#00a3c4', '服飾': '#ff9f43', '軟體服務': '#5b7cfa', '辦公': '#8a9a5b', '其他': '#98a6ad'
+  };
+  var LEDGER_PILL = { personal: 'pill--sky', family: 'pill--teal', business: 'pill--violet', pending: 'pill--amber' };
+  var SECTION_TITLES = {
+    overview: ['總覽', '每月支出、退款與淨額對帳'],
+    transactions: ['交易明細', '搜尋、篩選、排序；新增或編輯示範交易'],
+    bills: ['帳單提醒', '到期／付款／提醒狀態皆為模擬'],
+    import: ['匯入預覽', '本機貼上合成資料 → 檢查重複 → 確認後才匯入'],
+    about: ['說明與限制', '公式、資料筆數、排除項目與尚未實作的部分']
+  };
+
+  // ---------- 狀態 ----------
+  var storageOk = true;
+  var storageMsg = '';
+  var data = loadData();
+  var ui = {
+    section: 'overview',
+    month: D.DEFAULT_MONTH,
+    currency: D.DEFAULT_CURRENCY,
+    ledger: 'all',
+    view: 'cash',
+    selectedCategory: null,
+    search: '',
+    category: 'all',
+    status: 'all',
+    scope: 'month',
+    sortKey: 'date',
+    sortDir: 'desc',
+    importText: '',
+    preview: null,
+    previewSel: {}
+  };
+
+  function seed() {
+    return { transactions: F.clone(D.transactions), bills: F.clone(D.bills) };
+  }
+
+  function loadData() {
+    var raw = null;
+    try {
+      raw = window.localStorage.getItem(F.STORAGE_KEY);
+    } catch (e) {
+      storageOk = false;
+      storageMsg = '此環境無法使用 localStorage，變更僅保留到關閉頁面。';
+      return seed();
+    }
+    if (!raw) { storageMsg = '尚無本機變更，使用原始示範資料。'; return seed(); }
+    var parsed = F.parseState(raw);
+    if (!parsed.ok) {
+      storageMsg = parsed.error === 'version_mismatch'
+        ? '本機資料版本不符（v' + parsed.found + '），已改用 v' + F.STORAGE_VERSION + ' 示範資料。'
+        : '本機資料無法解析，已改用原始示範資料。';
+      return seed();
+    }
+    storageMsg = '已載入本機儲存的示範資料（v' + F.STORAGE_VERSION + '）。';
+    return parsed.state;
+  }
+
+  function save() {
+    if (!storageOk) return;
+    try {
+      window.localStorage.setItem(F.STORAGE_KEY, F.serializeState(data, new Date().toISOString()));
+      storageMsg = '已儲存於本機（v' + F.STORAGE_VERSION + '）。';
+    } catch (e) {
+      storageOk = false;
+      storageMsg = '儲存失敗，變更僅保留到關閉頁面。';
+    }
+    renderStorageNote();
+  }
+
+  // ---------- 小工具 ----------
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function esc(s) {
+    return String(s === null || s === undefined ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function money(v, cur) { return F.formatMoney(v, cur || ui.currency); }
+  function amtHtml(v, cur) {
+    if (v === null || v === undefined) return '<span class="amt amt--missing">待補</span>';
+    return '<span class="amt num' + (v < 0 ? ' amt--neg' : '') + '">' + esc(money(v, cur)) + '</span>';
+  }
+  function monthLabel(m) { var p = m.split('-'); return p[0] + ' 年 ' + Number(p[1]) + ' 月'; }
+  function shortMonth(m) { var p = m.split('-'); return Number(p[1]) + ' 月'; }
+  function dateLabel(d) { return d ? d.replace(/-/g, '/') : '待補'; }
+  function ledgerPill(l) { return '<span class="pill ' + LEDGER_PILL[l] + '">' + esc(F.LEDGERS[l] || l) + '</span>'; }
+  function ledgerName(l) { return l === 'all' ? '全部帳本' : F.LEDGERS[l] + '帳本'; }
+  function reasonPill(r) {
+    var map = { pending_ledger: ['pill--amber', '帳本待確認'], authorization: ['pill--violet', '僅授權'], missing_amount: ['pill--amber', '金額待補'], missing_date: ['pill--amber', '日期待補'] };
+    var m = map[r] || ['pill--grey', r];
+    return '<span class="pill ' + m[0] + '">' + m[1] + '</span>';
+  }
+  function newId() { return 'usr-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7); }
+
+  var toastTimer = null;
+  function toast(msg) {
+    var el = $('#toast');
+    el.textContent = msg;
+    el.classList.add('is-on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove('is-on'); }, 2800);
+  }
+
+  function confirmDialog(title, html, okLabel) {
+    return new Promise(function (resolve) {
+      var dlg = $('#dlg-confirm');
+      $('#dlg-confirm-title').textContent = title;
+      $('#dlg-confirm-msg').innerHTML = html;
+      $('#dlg-confirm-ok').textContent = okLabel || '確認';
+      dlg.returnValue = '';
+      function done() { dlg.removeEventListener('close', done); resolve(dlg.returnValue === 'ok'); }
+      dlg.addEventListener('close', done);
+      dlg.showModal();
+      $('#dlg-confirm-ok').focus();
+    });
+  }
+
+  // ---------- 全域篩選 ----------
+  function radioSeg(name, options, current) {
+    return '<div class="seg__wrap">' + options.map(function (o) {
+      return '<label class="seg__opt"><input type="radio" name="' + name + '" value="' + esc(o[0]) + '"' +
+        (o[0] === current ? ' checked' : '') + '><span>' + esc(o[1]) + '</span></label>';
+    }).join('') + '</div>';
+  }
+
+  function renderFilters() {
+    var months = F.availableMonths(data.transactions, [D.DEFAULT_MONTH, ui.month]);
+    $('#f-month').innerHTML = months.slice().reverse().map(function (m) {
+      return '<option value="' + m + '"' + (m === ui.month ? ' selected' : '') + '>' + monthLabel(m) + '</option>';
+    }).join('');
+    var cur = $('#f-currency');
+    cur.innerHTML = '<legend class="field__label">幣別（不換匯）</legend>' +
+      radioSeg('currency', F.CURRENCY_KEYS.map(function (c) { return [c, c]; }), ui.currency);
+    $('#f-ledger').innerHTML = [['all', '全部帳本（含待確認）']].concat(F.LEDGER_KEYS.map(function (l) { return [l, F.LEDGERS[l]]; }))
+      .map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === ui.ledger ? ' selected' : '') + '>' + esc(o[1]) + '</option>'; }).join('');
+    $('#f-view').innerHTML = '<legend class="field__label">退款歸屬檢視</legend>' +
+      radioSeg('view', [['cash', '依交易日期（示範）'], ['adjusted', '原始消費調整']], ui.view);
+  }
+
+  function bindFilters() {
+    $('#filters').addEventListener('submit', function (e) { e.preventDefault(); });
+    $('#f-month').addEventListener('change', function (e) { ui.month = e.target.value; ui.selectedCategory = null; renderData(); });
+    $('#f-ledger').addEventListener('change', function (e) { ui.ledger = e.target.value; ui.selectedCategory = null; renderData(); });
+    $('#f-currency').addEventListener('change', function (e) { ui.currency = e.target.value; ui.selectedCategory = null; renderData(); });
+    $('#f-view').addEventListener('change', function (e) { ui.view = e.target.value; renderData(); });
+  }
+
+  // ---------- 導覽 ----------
+  function setSection(s, focusMain) {
+    ui.section = s;
+    $all('.nav__item').forEach(function (b) {
+      if (b.dataset.section === s) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+    Object.keys(SECTION_TITLES).forEach(function (k) { $('#sec-' + k).hidden = k !== s; });
+    $('#page-title').textContent = SECTION_TITLES[s][0];
+    $('#sec-' + s).setAttribute('aria-labelledby', 'page-title');
+    renderSubtitle();
+    renderSection();
+    if (focusMain) $('#main').focus({ preventScroll: false });
+  }
+
+  function renderSubtitle() {
+    var base = SECTION_TITLES[ui.section][1];
+    if (ui.section === 'overview' || ui.section === 'transactions') {
+      base = monthLabel(ui.month) + ' · ' + ui.currency + ' · ' + ledgerName(ui.ledger) + ' · ' + (ui.view === 'cash' ? '依交易日期（示範）檢視' : '原始消費調整檢視');
+    }
+    $('#page-subtitle').textContent = base;
+  }
+
+  function renderData() {
+    renderFilters();
+    renderSubtitle();
+    renderSection();
+  }
+
+  function renderSection() {
+    if (ui.section === 'overview') renderOverview();
+    else if (ui.section === 'transactions') renderTransactions();
+    else if (ui.section === 'bills') renderBills();
+    else if (ui.section === 'import') renderImport();
+    else if (ui.section === 'about') renderAbout();
+  }
+
+  function renderStorageNote() {
+    var el = $('#storage-note');
+    if (el) el.textContent = '本機儲存：' + storageMsg;
+  }
+
+  // ---------- 總覽 ----------
+  function summary() {
+    return F.computeSummary(data.transactions, { month: ui.month, currency: ui.currency, ledger: ui.ledger, view: ui.view });
+  }
+
+  function renderOverview() {
+    var s = summary();
+    var cur = ui.currency;
+    var html = '';
+
+    html += ui.view === 'cash'
+      ? '<div class="view-note"><strong>依交易日期（示範）檢視：</strong>每筆交易依「紀錄上的交易日期」歸月。後續月份才發生的退款，記在退款紀錄的月份，<strong>不會回溯</strong>改變本月數字。' +
+        '<br><span class="small">注意：此日期取自合成通知資料，<strong>並非經銀行獨立驗證的實際金流或付款（扣款）日期</strong>；日期待補的交易不會被推測日期。</span></div>'
+      : '<div class="view-note view-note--adj"><strong>原始消費調整檢視：</strong>已連結原始消費的退款，歸回「原始消費月份」，用來看某月消費最終實際花了多少；未連結的退款仍依自身日期。交易原始日期不會被修改。</div>';
+
+    html += '<div class="grid grid--kpi">' +
+      kpi('teal', '總支出（消費合計）', money(s.gross), s.expenseCount + ' 筆已入帳消費') +
+      kpi('coral', '退款（負數）', money(s.refunds), s.refundCount + ' 筆退款' + (s.backdatedRefunds ? '，含後續月份退款 ' + money(s.backdatedRefunds) : '')) +
+      kpi('amber', '淨支出', money(s.net), '總支出 + 退款') +
+      kpi('ink', '已計入／排除', s.includedCount + ' ／ ' + s.exclusions.length + ' 筆', '排除項目見下方說明') +
+      '</div>';
+
+    var ok = s.reconciled;
+    html += '<div class="reconcile" aria-label="對帳">' +
+      '<span class="muted small">對帳</span>' +
+      '<span class="reconcile__eq num">' + esc(money(s.gross)) + ' + (' + esc(money(s.refunds)) + ') = ' + esc(money(s.net)) + '</span>' +
+      (ok ? '<span class="reconcile__ok">✓ 已核對（逐筆加總 = 淨支出）</span>' : '<span class="reconcile__bad">✗ 不一致</span>') +
+      '<span class="muted small">僅 ' + esc(cur) + '，不含其他幣別、不換匯</span></div>';
+
+    // 註記
+    var notes = [];
+    s.notes.laterLinkedRefunds.forEach(function (t) {
+      notes.push('本月消費於 ' + dateLabel(t.date) + ' 有連結退款 ' + money(t.amount, t.currency) + '（' + esc(t.merchant) + '），「依交易日期（示範）」檢視記在 ' + monthLabel(F.monthOf(t.date)) + '；切換「原始消費調整」可看歸回本月的結果。');
+    });
+    s.notes.movedIn.forEach(function (t) {
+      notes.push('已將 ' + dateLabel(t.date) + ' 的退款 ' + money(t.amount, t.currency) + '（' + esc(t.merchant) + '）歸回本月原始消費。');
+    });
+    s.notes.movedOut.forEach(function (t) {
+      var orig = data.transactions.find(function (x) { return x.id === t.refundOf; });
+      notes.push('本月 ' + dateLabel(t.date) + ' 的退款 ' + money(t.amount, t.currency) + '（' + esc(t.merchant) + '）已歸回原始消費月份 ' + (orig ? monthLabel(F.monthOf(orig.date)) : '') + '，不計入本月。');
+    });
+    Object.keys(s.otherCurrency).forEach(function (c) {
+      notes.push('本月另有 ' + s.otherCurrency[c] + ' 筆 ' + c + ' 交易，未合併、不換匯；請切換幣別查看。');
+    });
+    if (notes.length) {
+      html += '<div class="card"><div class="card__head"><h2 class="card__title">本月註記</h2></div><ul class="list">' +
+        notes.map(function (n) { return '<li><span>' + n + '</span></li>'; }).join('') + '</ul></div>';
+    }
+
+    html += '<div class="grid grid--2" style="margin-top:18px">' +
+      '<div class="card"><div class="card__head"><h2 class="card__title">類別支出占比</h2><span class="muted small">占「總支出」比例；退款另列</span></div>' + donutHtml(s) + '</div>' +
+      '<div class="card"><div class="card__head"><h2 class="card__title">每日消費與退款</h2><span class="muted small">' + esc(monthLabel(ui.month)) + '</span></div>' + dailyHtml(s) + '</div>' +
+      '</div>';
+
+    html += '<div class="grid grid--2b">' +
+      '<div class="card"><div class="card__head"><h2 class="card__title">近 6 個月淨支出</h2><span class="muted small">點選月份即可切換</span></div>' + trendHtml() + '</div>' +
+      '<div class="card"><div class="card__head"><h2 class="card__title">退款明細（負數）</h2><span class="muted small">依類別</span></div>' + refundListHtml(s) + '</div>' +
+      '</div>';
+
+    html += '<div class="grid grid--2b">' +
+      '<div class="card"><div class="card__head"><h2 class="card__title">待確認帳本</h2><span class="muted small">需手動指定，不依商家推斷</span></div>' + pendingHtml() + '</div>' +
+      '<div class="card"><div class="card__head"><h2 class="card__title">排除項目與原因</h2><span class="muted small">' + s.exclusions.length + ' 筆未計入合計</span></div>' + exclusionsHtml(s) + '</div>' +
+      '</div>';
+
+    $('#sec-overview').innerHTML = html;
+    bindOverview();
+  }
+
+  function kpi(tone, label, value, hint) {
+    return '<div class="kpi kpi--' + tone + '"><div class="kpi__label">' + esc(label) + '</div>' +
+      '<div class="kpi__value num">' + esc(value) + '</div><div class="kpi__hint">' + esc(hint) + '</div></div>';
+  }
+
+  function arcPath(cx, cy, r, ri, a0, a1) {
+    if (a1 - a0 >= Math.PI * 2 - 1e-6) a1 = a0 + Math.PI * 2 - 1e-4;
+    var large = a1 - a0 > Math.PI ? 1 : 0;
+    function p(r_, a) { return [cx + r_ * Math.sin(a), cy - r_ * Math.cos(a)]; }
+    var o0 = p(r, a0), o1 = p(r, a1), i1 = p(ri, a1), i0 = p(ri, a0);
+    return 'M' + o0[0].toFixed(2) + ' ' + o0[1].toFixed(2) + ' A' + r + ' ' + r + ' 0 ' + large + ' 1 ' + o1[0].toFixed(2) + ' ' + o1[1].toFixed(2) +
+      ' L' + i1[0].toFixed(2) + ' ' + i1[1].toFixed(2) + ' A' + ri + ' ' + ri + ' 0 ' + large + ' 0 ' + i0[0].toFixed(2) + ' ' + i0[1].toFixed(2) + ' Z';
+  }
+
+  function donutHtml(s) {
+    if (!s.categories.length) {
+      return '<div class="empty"><strong>此條件下沒有可計入的消費</strong>這不代表實際支出為 0，只表示示範資料在此月份／幣別／帳本沒有已入帳且金額日期完整的消費。' +
+        (s.exclusions.length ? '另有 ' + s.exclusions.length + ' 筆排除項目。' : '') + '</div>';
+    }
+    var sel = ui.selectedCategory;
+    var selCat = s.categories.find(function (c) { return c.category === sel; });
+    var a = 0;
+    var paths = s.categories.map(function (c) {
+      var a1 = a + c.share * Math.PI * 2;
+      var cls = sel ? (c.category === sel ? 'is-active' : 'is-dim') : '';
+      var d = arcPath(110, 110, 100, 64, a, a1);
+      a = a1;
+      return '<path d="' + d + '" fill="' + (CAT_COLORS[c.category] || '#98a6ad') + '" class="' + cls + '" data-cat="' + esc(c.category) + '">' +
+        '<title>' + esc(c.category + ' ' + money(c.gross) + '（' + F.formatShare(c.share) + '）') + '</title></path>';
+    }).join('');
+    var centerLabel = selCat ? selCat.category + ' · ' + F.formatShare(selCat.share) : '總支出';
+    var centerValue = selCat ? money(selCat.gross) : money(s.gross);
+    var svg = '<svg class="donut" viewBox="0 0 220 220" role="img" aria-label="類別支出環圈圖：' +
+      esc(s.categories.map(function (c) { return c.category + ' ' + F.formatShare(c.share); }).join('、')) + '">' + paths +
+      '<text x="110" y="102" text-anchor="middle" class="donut__center-label">' + esc(centerLabel) + '</text>' +
+      '<text x="110" y="128" text-anchor="middle" class="donut__center-value">' + esc(centerValue) + '</text></svg>';
+    var legend = '<ul class="legend" aria-label="類別（點選以聚焦）">' + s.categories.map(function (c) {
+      return '<li><button type="button" data-cat="' + esc(c.category) + '" aria-pressed="' + (c.category === sel) + '">' +
+        '<span class="legend__sw" style="background:' + (CAT_COLORS[c.category] || '#98a6ad') + '"></span>' +
+        '<span>' + esc(c.category) + (c.refunds ? ' <span class="pill pill--coral">退 ' + esc(money(c.refunds)) + '</span>' : '') + '</span>' +
+        '<span class="legend__amt">' + esc(money(c.gross)) + '</span><span class="legend__pct">' + F.formatShare(c.share) + '</span></button></li>';
+    }).join('') + '</ul>';
+    var detail = selCat ? '<p class="small muted" style="margin:10px 0 0">' + esc(selCat.category) + '：消費 ' + esc(money(selCat.gross)) +
+      '，退款 ' + esc(money(selCat.refunds)) + '，淨額 ' + esc(money(selCat.net)) +
+      ' <button type="button" class="btn btn--ghost btn--small" id="goto-cat">查看此類別交易</button></p>' : '';
+    return '<div class="donut-wrap">' + svg + '<div>' + legend + detail + '</div></div>';
+  }
+
+  function dailyHtml(s) {
+    var W = 620, H = 220, padL = 8, padR = 8, top = 14, bottom = 26;
+    var maxG = Math.max.apply(null, s.daily.map(function (d) { return d.gross; }).concat([0]));
+    var maxR = Math.max.apply(null, s.daily.map(function (d) { return -d.refunds; }).concat([0]));
+    if (maxG === 0 && maxR === 0) {
+      return '<div class="empty"><strong>本月沒有依日期可繪製的已入帳交易</strong>' +
+        (s.backdatedRefunds ? '後續月份退款 ' + esc(money(s.backdatedRefunds)) + ' 已於調整檢視計入，但不畫在本月日期上。' : '請切換月份、幣別或帳本。') + '</div>';
+    }
+    var total = maxG + maxR;
+    var plotH = H - top - bottom;
+    var zeroY = top + plotH * (maxG / total);
+    var n = s.daily.length;
+    var bw = (W - padL - padR) / n;
+    var bars = s.daily.map(function (d, i) {
+      var x = padL + i * bw + bw * 0.18;
+      var w = bw * 0.64;
+      var out = '';
+      if (d.gross > 0) {
+        var h = plotH * (d.gross / total);
+        out += '<rect class="bar-g" x="' + x.toFixed(1) + '" y="' + (zeroY - h).toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="3"><title>' +
+          esc(d.day + ' 日 消費 ' + money(d.gross)) + '</title></rect>';
+      }
+      if (d.refunds < 0) {
+        var h2 = plotH * (-d.refunds / total);
+        out += '<rect class="bar-r" x="' + x.toFixed(1) + '" y="' + zeroY.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h2.toFixed(1) + '" rx="3"><title>' +
+          esc(d.day + ' 日 退款 ' + money(d.refunds)) + '</title></rect>';
+      }
+      if (d.day === 1 || d.day % 5 === 0) {
+        out += '<text class="tick" x="' + (padL + i * bw + bw / 2).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + d.day + '</text>';
+      }
+      return out;
+    }).join('');
+    var svg = '<svg class="bars" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="每日消費（向上）與退款（向下）長條圖，詳細數字見下方表格">' +
+      '<line class="axis" x1="' + padL + '" x2="' + (W - padR) + '" y1="' + zeroY.toFixed(1) + '" y2="' + zeroY.toFixed(1) + '"/>' + bars + '</svg>';
+    var rows = s.daily.filter(function (d) { return d.gross || d.refunds; }).map(function (d) {
+      return '<tr><td>' + d.day + ' 日</td><td class="r">' + esc(money(d.gross)) + '</td><td class="r">' + esc(money(d.refunds)) + '</td></tr>';
+    }).join('');
+    return svg + '<div class="chart-legend"><span><i style="background:var(--teal-400)"></i>消費</span><span><i style="background:var(--coral-400)"></i>退款（負數，向下）</span>' +
+      (s.backdatedRefunds ? '<span>後續月份退款 ' + esc(money(s.backdatedRefunds)) + ' 已計入但不畫在日期上</span>' : '') + '</div>' +
+      '<details style="margin-top:8px"><summary class="small muted" style="min-height:44px;display:flex;align-items:center;cursor:pointer">以表格檢視每日數字</summary>' +
+      '<table class="count-table small"><thead><tr><th>日期</th><th>消費</th><th>退款</th></tr></thead><tbody>' + rows + '</tbody></table></details>';
+  }
+
+  function trendHtml() {
+    var tr = F.monthlyTrend(data.transactions, { endMonth: latestMonth(), count: 6, currency: ui.currency, ledger: ui.ledger, view: ui.view });
+    var max = Math.max.apply(null, tr.map(function (m) { return Math.abs(m.net); }).concat([1]));
+    return '<div class="trend" role="group" aria-label="近 6 個月淨支出">' + tr.map(function (m) {
+      var pct = Math.max(2, Math.round(Math.abs(m.net) / max * 100));
+      var label = m.count ? money(m.net) : '無資料';
+      return '<button type="button" class="trend__btn" data-month="' + m.month + '" aria-pressed="' + (m.month === ui.month) + '" aria-label="' +
+        esc(monthLabel(m.month) + ' 淨支出 ' + (m.count ? money(m.net) : '無已入帳資料') + '，' + m.count + ' 筆') + '">' +
+        '<span class="trend__val">' + esc(label) + '</span>' +
+        '<span class="trend__bar' + (m.net < 0 ? ' trend__bar--neg' : '') + '" style="height:' + (m.count ? pct : 2) + '%"></span>' +
+        '<span class="trend__month">' + shortMonth(m.month) + '</span></button>';
+    }).join('') + '</div>';
+  }
+
+  function latestMonth() {
+    var months = F.availableMonths(data.transactions, [D.DEFAULT_MONTH]);
+    var last = months[months.length - 1];
+    return ui.month > last ? ui.month : (F.shiftMonth(ui.month, 2) < last ? F.shiftMonth(ui.month, 2) : last);
+  }
+
+  function refundListHtml(s) {
+    var refunds = s.included.filter(function (i) { return i.tx.amount < 0; });
+    if (!refunds.length) {
+      var extra = s.view === 'cash' && s.notes.laterLinkedRefunds.length ? '本月消費有後續月份退款，「依交易日期（示範）」檢視不回溯。' : '';
+      return '<div class="empty"><strong>此條件下沒有計入的退款</strong>' + extra + '</div>';
+    }
+    return '<ul class="list">' + refunds.map(function (i) {
+      var t = i.tx;
+      var orig = t.refundOf ? data.transactions.find(function (x) { return x.id === t.refundOf; }) : null;
+      return '<li><div class="list__main"><div class="list__title">' + esc(t.merchant) + '</div><div class="list__meta">' +
+        esc(dateLabel(t.date)) + ' · ' + esc(t.category) + ' · ' + ledgerPill(t.ledger) +
+        (orig ? ' · 連結 ' + esc(dateLabel(orig.date)) + ' 消費' : ' · 未連結原始消費') +
+        (i.backdated ? ' <span class="pill pill--violet">已歸回原始月份</span>' : '') + '</div></div>' + amtHtml(t.amount, t.currency) + '</li>';
+    }).join('') + '</ul>';
+  }
+
+  function pendingHtml() {
+    var list = data.transactions.filter(function (t) { return t.ledger === 'pending'; });
+    if (!list.length) return '<div class="empty"><strong>沒有待確認帳本的交易</strong>所有交易都已明確指定帳本。</div>';
+    return '<ul class="list">' + list.map(function (t) {
+      return '<li><div class="list__main"><div class="list__title">' + esc(t.merchant) + '</div><div class="list__meta">' +
+        esc(dateLabel(t.date)) + ' · 類別：' + esc(t.category) + ' · ' + esc(t.currency) + '</div></div>' + amtHtml(t.amount, t.currency) +
+        '<button type="button" class="btn btn--coral btn--small" data-assign="' + esc(t.id) + '">指定帳本</button></li>';
+    }).join('') + '</ul>';
+  }
+
+  function exclusionsHtml(s) {
+    if (!s.exclusions.length) return '<div class="empty"><strong>此條件下沒有排除項目</strong>所有相關交易都已計入合計。</div>';
+    return '<ul class="list">' + s.exclusions.map(function (e) {
+      var t = e.tx;
+      return '<li><div class="list__main"><div class="list__title">' + esc(t.merchant) + ' ' + e.reasons.map(reasonPill).join(' ') + '</div>' +
+        '<div class="list__meta">' + esc(dateLabel(t.date)) + ' · ' + ledgerPill(t.ledger) + ' · ' + esc(F.REASONS[e.reasons[0]]) + '</div></div>' +
+        amtHtml(t.amount, t.currency) + '</li>';
+    }).join('') + '</ul>';
+  }
+
+  function bindOverview() {
+    var sec = $('#sec-overview');
+    sec.onclick = function (e) {
+      var catBtn = e.target.closest('[data-cat]');
+      if (catBtn) {
+        var c = catBtn.getAttribute('data-cat');
+        ui.selectedCategory = ui.selectedCategory === c ? null : c;
+        renderOverview();
+        var again = $('.legend button[data-cat="' + cssEsc(c) + '"]');
+        if (again && catBtn.tagName === 'BUTTON') again.focus();
+        return;
+      }
+      if (e.target.closest('#goto-cat')) {
+        ui.category = ui.selectedCategory || 'all';
+        ui.scope = 'month';
+        setSection('transactions', true);
+        return;
+      }
+      var mBtn = e.target.closest('[data-month]');
+      if (mBtn) {
+        ui.month = mBtn.getAttribute('data-month');
+        ui.selectedCategory = null;
+        renderData();
+        var b = $('.trend__btn[data-month="' + ui.month + '"]');
+        if (b) b.focus();
+        return;
+      }
+      var aBtn = e.target.closest('[data-assign]');
+      if (aBtn) openAssign(aBtn.getAttribute('data-assign'));
+    };
+  }
+
+  function cssEsc(s) { return window.CSS && CSS.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'); }
+
+  // ---------- 交易明細 ----------
+  var SORT_COLS = [['date', '日期', ''], ['merchant', '商家／說明', ''], ['category', '類別', ''], ['ledger', '帳本', ''], ['amount', '金額', 'r']];
+
+  function renderTransactions() {
+    $('#q-search').value = ui.search;
+    $('#q-category').innerHTML = '<option value="all">全部類別</option>' + F.CATEGORIES.map(function (c) {
+      return '<option' + (c === ui.category ? ' selected' : '') + '>' + esc(c) + '</option>';
+    }).join('');
+    $('#q-status').value = ui.status;
+    $('#q-scope').value = ui.scope;
+    renderTxTable();
+  }
+
+  function renderTxTable() {
+    var list = F.filterTransactions(data.transactions, {
+      month: ui.scope === 'all' ? 'all' : ui.month,
+      currency: ui.currency, ledger: ui.ledger, category: ui.category, status: ui.status, search: ui.search
+    });
+    list = F.sortTransactions(list, ui.sortKey, ui.sortDir);
+    var total = data.transactions.filter(function (t) { return t.currency === ui.currency; }).length;
+    $('#tx-count').textContent = '顯示 ' + list.length + ' 筆（' + ui.currency + ' 共 ' + total + ' 筆；全部幣別共 ' + data.transactions.length + ' 筆）。清單為瀏覽用，合計請看總覽。';
+    if (!list.length) {
+      $('#tx-table').innerHTML = '<div class="empty"><strong>沒有符合條件的交易</strong>請調整搜尋文字、類別、狀態、月份、幣別或帳本。這不代表實際沒有消費。</div>';
+      return;
+    }
+    var head = '<thead><tr>' + SORT_COLS.map(function (c) {
+      var active = ui.sortKey === c[0];
+      var aria = active ? (ui.sortDir === 'asc' ? 'ascending' : 'descending') : 'none';
+      var arrow = active ? (ui.sortDir === 'asc' ? '▲' : '▼') : '↕';
+      return '<th scope="col" class="' + c[2] + '" aria-sort="' + aria + '"><button type="button" class="th-btn" data-sort="' + c[0] + '">' +
+        esc(c[1]) + ' <span aria-hidden="true">' + arrow + '</span></button></th>';
+    }).join('') + '<th scope="col"><span class="th-static">狀態</span></th><th scope="col" class="r"><span class="th-static">操作</span></th></tr></thead>';
+    var body = '<tbody>' + list.map(function (t) {
+      var pills = [];
+      if (t.status === 'authorization') pills.push(reasonPill('authorization'));
+      if (!F.hasAmount(t)) pills.push(reasonPill('missing_amount'));
+      if (!F.isValidDate(t.date)) pills.push(reasonPill('missing_date'));
+      if (F.isRefund(t)) pills.push('<span class="pill pill--coral">退款' + (t.refundOf ? '・已連結' : '') + '</span>');
+      if (!pills.length) pills.push('<span class="pill pill--teal">已入帳</span>');
+      return '<tr>' +
+        '<td data-label="日期" class="num">' + (t.date ? esc(dateLabel(t.date)) : '<span class="amt amt--missing">待補</span>') + '</td>' +
+        '<td data-label="商家"><div class="tx-merchant">' + esc(t.merchant) + '</div>' +
+        (t.note ? '<div class="tx-sub">' + esc(t.note) + '</div>' : '') +
+        '<div class="tx-sub">' + esc(t.sourceLabel || '') + (t.messageId ? ' · ' + esc(t.messageId) : '') + '</div></td>' +
+        '<td data-label="類別">' + esc(t.category) + '</td>' +
+        '<td data-label="帳本">' + ledgerPill(t.ledger) + '</td>' +
+        '<td data-label="金額" class="r">' + amtHtml(t.amount, t.currency) + '</td>' +
+        '<td data-label="狀態">' + pills.join(' ') + '</td>' +
+        '<td data-label="操作" class="r"><div class="row-actions">' +
+        (t.ledger === 'pending' ? '<button type="button" class="btn btn--coral btn--small" data-assign="' + esc(t.id) + '">指定帳本</button>' : '') +
+        '<button type="button" class="btn btn--ghost btn--small" data-edit="' + esc(t.id) + '" aria-label="編輯 ' + esc(t.merchant) + '">編輯</button></div></td>' +
+        '</tr>';
+    }).join('') + '</tbody>';
+    $('#tx-table').innerHTML = '<div class="table-wrap"><table class="tx"><caption class="sr-only">交易清單，可依欄位排序</caption>' + head + body + '</table></div>';
+  }
+
+  function bindTransactions() {
+    $('#q-search').addEventListener('input', function (e) { ui.search = e.target.value; renderTxTable(); });
+    $('#q-category').addEventListener('change', function (e) { ui.category = e.target.value; renderTxTable(); });
+    $('#q-status').addEventListener('change', function (e) { ui.status = e.target.value; renderTxTable(); });
+    $('#q-scope').addEventListener('change', function (e) { ui.scope = e.target.value; renderTxTable(); });
+    $('#add-tx').addEventListener('click', function () { openTxForm(null); });
+    $('#tx-table').addEventListener('click', function (e) {
+      var s = e.target.closest('[data-sort]');
+      if (s) {
+        var k = s.getAttribute('data-sort');
+        if (ui.sortKey === k) ui.sortDir = ui.sortDir === 'asc' ? 'desc' : 'asc';
+        else { ui.sortKey = k; ui.sortDir = k === 'date' || k === 'amount' ? 'desc' : 'asc'; }
+        renderTxTable();
+        var again = $('#tx-table [data-sort="' + k + '"]');
+        if (again) again.focus();
+        return;
+      }
+      var ed = e.target.closest('[data-edit]');
+      if (ed) { openTxForm(ed.getAttribute('data-edit')); return; }
+      var as = e.target.closest('[data-assign]');
+      if (as) openAssign(as.getAttribute('data-assign'));
+    });
+  }
+
+  // ---------- 新增／編輯表單 ----------
+  var editingId = null;
+  var lastFocus = null;
+
+  function fillSelect(sel, opts, value) {
+    sel.innerHTML = opts.map(function (o) {
+      return '<option value="' + esc(o[0]) + '"' + (o[0] === value ? ' selected' : '') + '>' + esc(o[1]) + '</option>';
+    }).join('');
+  }
+
+  function refreshRefundOf(form, currentVal) {
+    var cur = form.currency.value;
+    var opts = [['', '（不連結）']].concat(data.transactions.filter(function (t) {
+      return t.currency === cur && !F.isRefund(t) && t.id !== editingId;
+    }).sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).map(function (t) {
+      return [t.id, dateLabel(t.date) + ' · ' + t.merchant + ' · ' + money(t.amount, t.currency)];
+    }));
+    fillSelect(form.refundOf, opts, currentVal || '');
+    $('#refund-of-field').hidden = form.querySelector('input[name="type"]:checked').value !== 'refund';
+  }
+
+  function openTxForm(id) {
+    lastFocus = document.activeElement;
+    editingId = id;
+    var t = id ? data.transactions.find(function (x) { return x.id === id; }) : null;
+    var form = $('#tx-form');
+    form.reset();
+    $('#tx-errors').innerHTML = '';
+    $('#dlg-tx-title').textContent = t ? '編輯示範交易' : '新增示範交易';
+    fillSelect(form.currency, F.CURRENCY_KEYS.map(function (c) { return [c, c + ' ' + F.CURRENCIES[c].label]; }), t ? t.currency : ui.currency);
+    fillSelect(form.ledger, [['', '— 請選擇帳本 —']].concat(F.LEDGER_KEYS.map(function (l) { return [l, F.LEDGERS[l]]; })), t ? t.ledger : '');
+    fillSelect(form.category, [['', '— 請選擇類別 —']].concat(F.CATEGORIES.map(function (c) { return [c, c]; })), t ? t.category : '');
+    form.status.value = t ? t.status : 'settled';
+    var type = t && F.isRefund(t) ? 'refund' : 'expense';
+    form.querySelector('input[name="type"][value="' + type + '"]').checked = true;
+    form.date.value = t && t.date ? t.date : (t ? '' : ui.month + '-01');
+    form.amount.value = t && F.hasAmount(t) ? String(Math.abs(t.amount)) : '';
+    form.merchant.value = t ? t.merchant : '';
+    form.note.value = t ? t.note || '' : '';
+    refreshRefundOf(form, t ? t.refundOf : '');
+    $('#dlg-tx').showModal();
+    form.date.focus();
+  }
+
+  function bindTxForm() {
+    var form = $('#tx-form');
+    form.addEventListener('change', function (e) {
+      if (e.target.name === 'type' || e.target.name === 'currency') refreshRefundOf(form, form.refundOf.value);
+    });
+    $('#tx-cancel').addEventListener('click', function () { $('#dlg-tx').close(); });
+    $('#dlg-tx').addEventListener('close', function () { if (lastFocus && lastFocus.focus && document.body.contains(lastFocus)) lastFocus.focus(); });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = {
+        id: editingId,
+        type: form.querySelector('input[name="type"]:checked').value,
+        date: form.date.value,
+        amount: form.amount.value,
+        currency: form.currency.value,
+        ledger: form.ledger.value,
+        category: form.category.value,
+        status: form.status.value,
+        merchant: form.merchant.value,
+        note: form.note.value,
+        refundOf: form.querySelector('input[name="type"]:checked').value === 'refund' ? form.refundOf.value : ''
+      };
+      var prev = editingId ? data.transactions.find(function (x) { return x.id === editingId; }) : null;
+      if (prev) { input.messageId = prev.messageId; input.sourceLabel = prev.sourceLabel; }
+      var r = F.normalizeTxInput(input, data.transactions);
+      if (r.errors.length) {
+        $('#tx-errors').innerHTML = '<ul>' + r.errors.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>';
+        return;
+      }
+      if (prev && prev.ledgerConfirmedBy && prev.ledger === r.tx.ledger) r.tx.ledgerConfirmedBy = prev.ledgerConfirmedBy;
+      data.transactions = F.upsertTransaction(data.transactions, r.tx, newId());
+      save();
+      $('#dlg-tx').close();
+      toast(prev ? '已更新示範交易' : '已新增示範交易' + (r.tx.amount === null || r.tx.date === null ? '（含待補欄位）' : ''));
+      renderData();
+    });
+  }
+
+  // ---------- 指定帳本 ----------
+  var assignId = null;
+  function openAssign(id) {
+    var t = data.transactions.find(function (x) { return x.id === id; });
+    if (!t) return;
+    lastFocus = document.activeElement;
+    assignId = id;
+    $('#assign-info').innerHTML = '<strong>' + esc(t.merchant) + '</strong><br>' + esc(dateLabel(t.date)) + ' · ' + esc(t.category) + ' · ' +
+      esc(money(t.amount, t.currency)) + '<br><span class="small muted">系統不會依商家名稱建議帳本，請依實際用途選擇。</span>';
+    $('#assign-ledgers').innerHTML = '<legend class="field__label">選擇帳本</legend>' + radioSeg('assignLedger', F.ASSIGNABLE_LEDGERS.map(function (l) { return [l, F.LEDGERS[l]]; }), null);
+    $('#assign-confirm').checked = false;
+    $('#assign-errors').innerHTML = '';
+    $('#dlg-assign').showModal();
+    var first = $('#assign-ledgers input');
+    if (first) first.focus();
+  }
+
+  function bindAssign() {
+    $('#assign-cancel').addEventListener('click', function () { $('#dlg-assign').close(); });
+    $('#dlg-assign').addEventListener('close', function () { if (lastFocus && lastFocus.focus && document.body.contains(lastFocus)) lastFocus.focus(); });
+    $('#assign-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var picked = $('#assign-ledgers input:checked');
+      var errs = [];
+      if (!picked) errs.push('請選擇帳本');
+      if (!$('#assign-confirm').checked) errs.push('請勾選確認，表示此歸屬由您明確指定');
+      if (errs.length) { $('#assign-errors').innerHTML = '<ul>' + errs.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>'; return; }
+      try {
+        data.transactions = F.assignLedger(data.transactions, assignId, picked.value, { confirmed: true });
+      } catch (err) {
+        $('#assign-errors').textContent = err.message;
+        return;
+      }
+      save();
+      $('#dlg-assign').close();
+      toast('已指定為「' + F.LEDGERS[picked.value] + '」帳本');
+      renderData();
+    });
+  }
+
+  // ---------- 帳單 ----------
+  function renderBills() {
+    var today = D.DEMO_TODAY;
+    var order = { overdue: 0, reminder: 1, undated: 2, scheduled: 3, paid: 4 };
+    var bills = data.bills.map(function (b) { return { b: b, s: F.billStatus(b, today) }; })
+      .sort(function (x, y) { return order[x.s.state] - order[y.s.state] || String(x.b.dueDate).localeCompare(String(y.b.dueDate)); });
+    var counts = {};
+    bills.forEach(function (x) { counts[x.s.state] = (counts[x.s.state] || 0) + 1; });
+    var html = '<div class="view-note"><strong>模擬功能：</strong>以固定的「示範今日」<span class="num">' + esc(dateLabel(today)) +
+      '</span> 計算到期／提醒狀態。不會發送任何通知、不會連結銀行或實際付款；「標記已付款」只改變本機示範資料。帳單不計入上方支出合計。</div>';
+    html += '<div class="grid grid--kpi">' +
+      kpi('coral', '已逾期', (counts.overdue || 0) + ' 筆', '模擬狀態') +
+      kpi('amber', '提醒中', (counts.reminder || 0) + ' 筆', '在提醒天數內') +
+      kpi('teal', '尚未到期', (counts.scheduled || 0) + ' 筆', '模擬狀態') +
+      kpi('ink', '已付款', (counts.paid || 0) + ' 筆', '模擬標記') + '</div>';
+    if (!bills.length) html += '<div class="empty"><strong>沒有示範帳單</strong></div>';
+    html += '<div class="bill-grid">' + bills.map(function (x) {
+      var b = x.b, s = x.s;
+      var when = s.state === 'paid' ? '已於 ' + dateLabel(b.paidDate) + ' 標記付款' :
+        s.state === 'overdue' ? '已逾期 ' + (-s.days) + ' 天' :
+        s.state === 'undated' ? '到期日待補' :
+        s.days === 0 ? '今天到期' : '還有 ' + s.days + ' 天到期';
+      var pillCls = { overdue: 'pill--coral', reminder: 'pill--amber', scheduled: 'pill--teal', paid: 'pill--grey', undated: 'pill--violet' }[s.state];
+      return '<article class="bill bill--' + s.state + '" aria-label="' + esc(b.name) + '">' +
+        '<div class="bill__name">' + esc(b.name) + '</div>' +
+        '<div>' + ledgerPill(b.ledger) + ' <span class="pill ' + pillCls + '">' + esc(F.BILL_STATES[s.state]) + '</span></div>' +
+        '<div class="bill__amt">' + amtHtml(b.amount, b.currency) + '</div>' +
+        '<div class="small muted">到期日 <span class="num">' + esc(dateLabel(b.dueDate)) + '</span> · ' + esc(when) + ' · 提前 ' + esc(b.reminderDays) + ' 天提醒</div>' +
+        '<div class="bill__actions">' + (b.paidDate
+          ? '<button type="button" class="btn btn--ghost btn--small" data-unpay="' + esc(b.id) + '">取消付款標記</button>'
+          : '<button type="button" class="btn btn--primary btn--small" data-pay="' + esc(b.id) + '">標記已付款（模擬）</button>') +
+        '</div></article>';
+    }).join('') + '</div>';
+    var sec = $('#sec-bills');
+    sec.innerHTML = html;
+    sec.onclick = function (e) {
+      var p = e.target.closest('[data-pay]');
+      var u = e.target.closest('[data-unpay]');
+      if (p) {
+        var id = p.getAttribute('data-pay');
+        var bill = data.bills.find(function (b) { return b.id === id; });
+        confirmDialog('模擬付款', '將「' + esc(bill.name) + '」標記為於 ' + esc(dateLabel(today)) + ' 已付款？<br><span class="small muted">這只是示範資料變更，不會進行任何實際付款。</span>', '標記已付款').then(function (ok) {
+          if (!ok) return;
+          data.bills = F.markBillPaid(data.bills, id, today, { confirmed: true });
+          save(); renderBills(); toast('已標記為已付款（模擬）');
+        });
+      } else if (u) {
+        data.bills = F.markBillUnpaid(data.bills, u.getAttribute('data-unpay'));
+        save(); renderBills(); toast('已取消付款標記');
+      }
+    };
+  }
+
+  // ---------- 匯入預覽 ----------
+  var STATE_LABEL = {
+    new: ['pill--teal', '新資料'],
+    possible_duplicate: ['pill--amber', '疑似重複'],
+    duplicate_existing: ['pill--coral', '重複：messageID 已存在'],
+    duplicate_batch: ['pill--coral', '重複：批次內 messageID'],
+    invalid: ['pill--grey', '無效']
+  };
+
+  function renderImport() {
+    var sec = $('#sec-import');
+    var html = '<div class="form-errors" style="margin-bottom:18px"><strong>請勿貼上真實或敏感的財務資料。</strong>這是私有、尚未發佈的示範，只適合使用範例／合成資料。</div>' +
+      '<div class="view-note"><strong>僅限本機：</strong>這裡不連結 Gmail、試算表或任何服務，貼上的內容不會上傳。請貼上 JSON 陣列（合成資料），系統以 <code>messageId</code> 為重複判斷鍵，' +
+      '另以「日期＋金額＋幣別＋商家」標記疑似重複。匯入的交易一律放入「待確認」帳本，需要您之後手動指定。</div>';
+    html += '<div class="card"><div class="card__head"><h2 class="card__title">1. 貼上資料</h2></div>' +
+      '<label class="field"><span class="field__label">JSON 陣列（欄位：messageId, date, amount, currency, merchant, category, note, status）</span>' +
+      '<textarea class="input" id="imp-text" spellcheck="false">' + esc(ui.importText) + '</textarea></label>' +
+      '<div class="import-actions"><button type="button" class="btn btn--ghost" id="imp-sample">載入合成示範批次</button>' +
+      '<button type="button" class="btn btn--primary" id="imp-preview">產生預覽</button></div>' +
+      '<div class="form-errors" id="imp-errors" role="alert"></div></div>';
+
+    if (ui.preview) {
+      var p = ui.preview;
+      var counts = {};
+      p.forEach(function (r) { counts[r.state] = (counts[r.state] || 0) + 1; });
+      var selCount = p.filter(function (r) { return ui.previewSel[r.index]; }).length;
+      html += '<div class="card"><div class="card__head"><h2 class="card__title">2. 預覽與檢查</h2><span class="muted small">' +
+        Object.keys(STATE_LABEL).filter(function (k) { return counts[k]; }).map(function (k) { return STATE_LABEL[k][1] + ' ' + counts[k]; }).join('、') + '</span></div>' +
+        '<div class="table-wrap"><table class="tx"><caption class="sr-only">匯入預覽</caption><thead><tr>' +
+        '<th scope="col"><span class="th-static">匯入</span></th><th scope="col"><span class="th-static">列</span></th><th scope="col"><span class="th-static">狀態</span></th>' +
+        '<th scope="col"><span class="th-static">日期</span></th><th scope="col"><span class="th-static">商家／messageID</span></th><th scope="col" class="r"><span class="th-static">金額</span></th>' +
+        '<th scope="col"><span class="th-static">說明</span></th></tr></thead><tbody>' +
+        p.map(function (r) {
+          var st = STATE_LABEL[r.state];
+          var cls = r.state === 'invalid' ? 'state-row--invalid' : (r.state.indexOf('duplicate') >= 0 ? 'state-row--duplicate' : '');
+          var msgs = r.errors.concat(r.warnings);
+          if (r.matchId) msgs.unshift('對應：' + r.matchId);
+          var ok = F.CURRENCIES[r.tx.currency];
+          return '<tr class="' + cls + '">' +
+            '<td data-label="匯入"><label class="check" style="padding:0"><input type="checkbox" data-sel="' + r.index + '"' +
+            (r.selectable ? '' : ' disabled') + (ui.previewSel[r.index] ? ' checked' : '') + '><span class="sr-only">匯入第 ' + (r.index + 1) + ' 列</span></label></td>' +
+            '<td data-label="列" class="num">' + (r.index + 1) + '</td>' +
+            '<td data-label="狀態"><span class="pill ' + st[0] + '">' + st[1] + '</span></td>' +
+            '<td data-label="日期" class="num">' + (r.tx.date ? esc(dateLabel(r.tx.date)) : '<span class="amt amt--missing">待補</span>') + '</td>' +
+            '<td data-label="商家"><div class="tx-merchant">' + esc(r.tx.merchant) + '</div><div class="tx-sub">' + esc(r.tx.messageId || '（無 messageID）') + '</div></td>' +
+            '<td data-label="金額" class="r">' + (ok ? amtHtml(r.tx.amount, r.tx.currency) : esc(String(r.tx.amount) + ' ' + String(r.tx.currency))) + '</td>' +
+            '<td data-label="說明" class="small">' + esc(msgs.join('；') || '—') + '</td></tr>';
+        }).join('') + '</tbody></table></div>' +
+        '<div class="import-actions"><button type="button" class="btn btn--primary" id="imp-commit"' + (selCount ? '' : ' disabled') + '>3. 確認匯入 ' + selCount + ' 筆</button>' +
+        '<button type="button" class="btn btn--ghost" id="imp-clear">清除預覽</button></div>' +
+        '<p class="small muted">重複列（messageID 相同）無法勾選；疑似重複預設不勾選，需您自行判斷。</p></div>';
+    }
+    sec.innerHTML = html;
+
+    $('#imp-text').addEventListener('input', function (e) { ui.importText = e.target.value; });
+    $('#imp-sample').addEventListener('click', function () {
+      ui.importText = JSON.stringify(D.importSample, null, 2);
+      ui.preview = null;
+      renderImport();
+      $('#imp-text').focus();
+    });
+    $('#imp-preview').addEventListener('click', function () {
+      var rows;
+      try { rows = JSON.parse(ui.importText || ''); } catch (err) {
+        $('#imp-errors').textContent = 'JSON 格式錯誤：' + err.message; return;
+      }
+      if (!Array.isArray(rows)) { $('#imp-errors').textContent = '資料必須是 JSON 陣列'; return; }
+      if (rows.length > 500) { $('#imp-errors').textContent = '示範版一次最多 500 列'; return; }
+      ui.preview = F.importPreview(data.transactions, rows);
+      ui.previewSel = {};
+      ui.preview.forEach(function (r) { if (r.defaultSelected) ui.previewSel[r.index] = true; });
+      renderImport();
+      var c = $('#imp-commit'); if (c) c.focus();
+    });
+    if (ui.preview) {
+      sec.querySelectorAll('[data-sel]').forEach(function (cb) {
+        cb.addEventListener('change', function () {
+          ui.previewSel[Number(cb.getAttribute('data-sel'))] = cb.checked;
+          var n = ui.preview.filter(function (r) { return ui.previewSel[r.index]; }).length;
+          var btn = $('#imp-commit');
+          btn.textContent = '3. 確認匯入 ' + n + ' 筆';
+          btn.disabled = n === 0;
+        });
+      });
+      $('#imp-clear').addEventListener('click', function () { ui.preview = null; renderImport(); });
+      $('#imp-commit').addEventListener('click', function () {
+        var idx = ui.preview.filter(function (r) { return ui.previewSel[r.index] && r.selectable; }).map(function (r) { return r.index; });
+        var dupSel = ui.preview.filter(function (r) { return ui.previewSel[r.index] && r.state === 'possible_duplicate'; }).length;
+        confirmDialog('確認匯入', '即將匯入 <strong>' + idx.length + '</strong> 筆合成交易至「待確認」帳本。' +
+          (dupSel ? '<br><strong>其中 ' + dupSel + ' 筆為疑似重複</strong>，請確定不是同一筆消費。' : '') +
+          '<br><span class="small muted">資料只存在此瀏覽器，可用「重設示範資料」還原。</span>', '確認匯入').then(function (ok) {
+          if (!ok) return;
+          var res = F.commitImport(data.transactions, ui.preview, idx, { confirmed: true }, function () { return newId(); });
+          data.transactions = res.transactions;
+          save();
+          ui.preview = null;
+          ui.importText = '';
+          renderFilters();
+          renderImport();
+          toast('已匯入 ' + res.added + ' 筆' + (res.skipped.length ? '，略過 ' + res.skipped.length + ' 筆' : '') + '；請至總覽指定帳本');
+        });
+      });
+    }
+  }
+
+  // ---------- 說明 ----------
+  function renderAbout() {
+    var tx = data.transactions;
+    var byCur = {};
+    F.CURRENCY_KEYS.forEach(function (c) { byCur[c] = tx.filter(function (t) { return t.currency === c; }).length; });
+    var c = {
+      total: tx.length,
+      pending: tx.filter(function (t) { return t.ledger === 'pending'; }).length,
+      auth: tx.filter(function (t) { return t.status === 'authorization'; }).length,
+      noAmt: tx.filter(function (t) { return !F.hasAmount(t); }).length,
+      noDate: tx.filter(function (t) { return !F.isValidDate(t.date); }).length,
+      refunds: tx.filter(F.isRefund).length,
+      linked: tx.filter(function (t) { return F.isRefund(t) && t.refundOf; }).length
+    };
+    var row = function (k, v) { return '<tr><th scope="row">' + esc(k) + '</th><td class="r num">' + esc(v) + '</td></tr>'; };
+    var html = '<div class="grid grid--2b"><div class="card prose"><h2 class="card__title">計算公式</h2>' +
+      '<div class="formula">計入條件 = 幣別相符 且 帳本相符 且 入帳狀態 = 已入帳\n         且 日期已知 且 金額已知 且 歸屬月份 = 所選月份\n\n' +
+      '總支出 = Σ 金額（金額 &gt; 0）\n退款   = Σ 金額（金額 &lt; 0，保持負數）\n淨支出 = 總支出 + 退款\n' +
+      '類別占比 = 該類別消費 ÷ 總支出（退款不計入占比，另列）\n\n' +
+      '歸屬月份（依交易日期（示範））= 交易紀錄日期的月份\n歸屬月份（原始消費調整）      = 已連結退款 → 原始消費月份；其餘 → 自身月份</div>' +
+      '<h3>日期的意義</h3><p>「依交易日期（示範）」使用交易紀錄上的日期（本示範為合成通知資料），<strong>不是經銀行獨立驗證的實際金流或付款（扣款）日期</strong>，' +
+      '也不代表款項已實際入帳或付出。日期未知者標示「日期待補」並排除，不會推測或補上已驗證日期。</p>' +
+      '<h3>帳本規則</h3><ul><li>「全部帳本」包含待確認帳本中已入帳的金額。</li><li>選擇特定帳本時，待確認交易不計入，並列在「排除項目」說明。</li>' +
+      '<li>帳本與類別分開；系統<strong>從不</strong>依商家名稱推斷用途或帳本，只能由您明確指定並勾選確認。</li></ul>' +
+      '<h3>幣別</h3><p>TWD、JPY、USD 各自獨立計算，<strong>不做匯率換算</strong>，也不合併成單一總額。USD 以「分」為單位整數加總以避免浮點誤差。</p>' +
+      '<h3>缺漏資料</h3><p>金額或日期未知時顯示「待補」，不以 0 計算，也不猜測。僅授權（預授權）交易不計入已入帳合計。</p></div>' +
+      '<div class="card prose"><h2 class="card__title">目前資料筆數</h2><table class="count-table"><tbody>' +
+      row('全部交易', c.total) + row('TWD／JPY／USD', byCur.TWD + '／' + byCur.JPY + '／' + byCur.USD) + row('帳本待確認', c.pending) +
+      row('僅授權（排除）', c.auth) + row('金額待補（排除）', c.noAmt) + row('日期待補（排除）', c.noDate) +
+      row('退款（負數）', c.refunds) + row('已連結原始消費的退款', c.linked) + row('示範帳單', data.bills.length) +
+      '</tbody></table><p class="small muted">' + esc(storageMsg) + '</p>' +
+      '<h3>已實作</h3><ul><li>月份／幣別／帳本篩選、兩種退款歸屬檢視、對帳</li><li>交易搜尋、篩選、排序、新增、編輯、指定帳本</li>' +
+      '<li>本機 localStorage（版本 v' + F.STORAGE_VERSION + '）與重設確認</li><li>本機 JSON 匯入預覽、messageID 重複檢查、確認後匯入</li></ul>' +
+      '<h3>僅模擬／未實作</h3><ul><li>帳單到期、提醒、付款狀態皆為模擬，以固定示範今日 ' + esc(dateLabel(D.DEMO_TODAY)) + ' 計算；不發送通知、不付款。</li>' +
+      '<li><strong>未連結</strong> Gmail、Google 試算表、銀行或任何外部服務；無登入、無分析追蹤、無網路請求。</li>' +
+      '<li>不刪除交易（示範版僅能編輯或重設）。</li><li>空白結果不代表實際支出為 0，只代表示範資料在該條件下沒有可計入的交易。</li></ul>' +
+      '<button type="button" class="btn btn--ghost" id="reset-btn-2">重設示範資料</button></div></div>';
+    $('#sec-about').innerHTML = html;
+    $('#reset-btn-2').addEventListener('click', doReset);
+  }
+
+  // ---------- 重設 ----------
+  function doReset() {
+    confirmDialog('重設示範資料？', '將清除此瀏覽器中所有示範交易、帳單與匯入的變更，還原為原始合成資料（' +
+      D.transactions.length + ' 筆交易、' + D.bills.length + ' 筆帳單）。此動作無法復原。', '確認重設').then(function (ok) {
+      if (!ok) return;
+      try { window.localStorage.removeItem(F.STORAGE_KEY); } catch (e) { /* 無法使用 localStorage 時忽略 */ }
+      data = seed();
+      ui.month = D.DEFAULT_MONTH; ui.currency = D.DEFAULT_CURRENCY; ui.ledger = 'all'; ui.view = 'cash';
+      ui.preview = null; ui.selectedCategory = null; ui.category = 'all'; ui.status = 'all'; ui.search = '';
+      storageMsg = '已重設為原始示範資料。';
+      renderStorageNote();
+      renderData();
+      toast('已重設示範資料');
+    });
+  }
+
+  // ---------- 初始化 ----------
+  function syncBannerHeight() {
+    var b = $('.demo-banner');
+    if (b) document.documentElement.style.setProperty('--banner-h', b.offsetHeight + 'px');
+  }
+
+  function init() {
+    $all('.nav__item').forEach(function (b) {
+      b.addEventListener('click', function () { setSection(b.dataset.section, true); });
+    });
+    $('#reset-btn').addEventListener('click', doReset);
+    bindFilters();
+    bindTransactions();
+    bindTxForm();
+    bindAssign();
+    renderStorageNote();
+    renderFilters();
+    setSection('overview', false);
+    syncBannerHeight();
+    window.addEventListener('resize', syncBannerHeight);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
+</script>
+</body>
+</html>
