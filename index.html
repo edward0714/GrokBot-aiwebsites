@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' file: 'unsafe-inline'; connect-src 'none'; font-src 'none'; img-src 'self' data:; frame-src 'none'; object-src 'none'; form-action 'none'; base-uri 'none'">
   <meta name="referrer" content="no-referrer">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="GrokBot_AI Service：私有、尚未發佈的家計帳本示範，僅含合成範例資料，不連結任何帳戶或服務。">
+  <meta name="description" content="GrokBot_AI Service：公開合成資料示範的家計帳本儀表板，僅含合成範例資料，不連結任何帳戶或服務。">
   <title>GrokBot_AI Service</title>
   <style>
 /* 家計帳本示範 — 無外部字型，僅使用系統字型 */
@@ -82,7 +82,7 @@ h1, h2, h3 { line-height: 1.25; margin: 0; }
 }
 .demo-banner__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--amber-400); box-shadow: 0 0 0 4px rgba(245, 176, 33, .25); }
 .demo-banner__sub { color: #7a5612; font-size: .875rem; }
-.private-notice {
+.demo-notice {
   padding: 10px 20px; background: #fffaf0; color: #5a3a00; border-bottom: 1px solid #f0d08a;
   font-size: .875rem; line-height: 1.6;
 }
@@ -383,9 +383,9 @@ textarea.input { width: 100%; min-height: 220px; font-family: ui-monospace, SFMo
     <strong>示範資料，尚未連結 Gmail／Google 試算表。</strong>
     <span class="demo-banner__sub">所有交易、帳單與郵件編號皆為合成資料；資料僅存於此瀏覽器。</span>
   </div>
-  <div class="private-notice" role="note" aria-label="私有示範聲明">
-    <strong>私有示範／尚未發佈：</strong>這是本機私有示範，尚未發佈為網站。這不是真實或已同步的帳本，只含範例資料；您所做的變更只儲存在目前這個瀏覽器（localStorage），不會上傳。
-    即使是私有示範，也請勿輸入或匯入真實、敏感的財務資料。本頁不使用分析追蹤、不發出任何網路請求，也不收集帳號、密碼或金鑰。
+  <div class="demo-notice" role="note" aria-label="公開合成資料示範聲明">
+    <strong>公開合成資料示範：</strong>這是公開的靜態示範網站，不是真實或已同步的帳本，只含合成範例資料。您所做的變更只儲存在目前這個瀏覽器的 localStorage，不會上傳；本站沒有帳號、登入或私人雲端儲存。
+    請勿輸入或匯入真實、敏感的財務資料。本頁不使用分析追蹤、不發出任何網路請求，也不收集帳號、密碼或金鑰。
   </div>
 
   <div class="shell">
@@ -396,7 +396,7 @@ textarea.input { width: 100%; min-height: 220px; font-family: ui-monospace, SFMo
         </div>
         <div>
           <div class="brand__name">GrokBot_AI Service</div>
-          <div class="brand__tag">家計帳本 · 私有示範 · 離線</div>
+          <div class="brand__tag">家計帳本 · 公開示範 · 合成資料</div>
         </div>
       </div>
       <nav class="nav">
@@ -415,7 +415,7 @@ textarea.input { width: 100%; min-height: 220px; font-family: ui-monospace, SFMo
     <div class="content">
       <header class="topbar">
         <div class="topbar__title">
-          <p class="topbar__brand">GrokBot_AI Service <span class="pill pill--amber">私有示範／尚未發佈</span></p>
+          <p class="topbar__brand">GrokBot_AI Service <span class="pill pill--amber">公開合成資料示範</span></p>
           <h1 id="page-title">總覽</h1>
           <p class="topbar__subtitle" id="page-subtitle"></p>
         </div>
@@ -2072,7 +2072,7 @@ textarea.input { width: 100%; min-height: 220px; font-family: ui-monospace, SFMo
 
   function renderImport() {
     var sec = $('#sec-import');
-    var html = '<div class="form-errors" style="margin-bottom:18px"><strong>請勿貼上真實或敏感的財務資料。</strong>這是私有、尚未發佈的示範，只適合使用範例／合成資料。</div>' +
+    var html = '<div class="form-errors" style="margin-bottom:18px"><strong>請勿貼上真實或敏感的財務資料。</strong>這是公開示範網站，只適合使用範例／合成資料。</div>' +
       '<div class="view-note"><strong>僅限本機：</strong>這裡不連結 Gmail、試算表或任何服務，貼上的內容不會上傳。請貼上 JSON 陣列（合成資料），系統以 <code>messageId</code> 為重複判斷鍵，' +
       '另以「日期＋金額＋幣別＋商家」標記疑似重複。匯入的交易一律放入「待確認」帳本，需要您之後手動指定。</div>';
     html += '<div class="card"><div class="card__head"><h2 class="card__title">1. 貼上資料</h2></div>' +
